@@ -7,6 +7,32 @@ The characteristic of the implementation are :
 To ease debug, a controller and a viewer for console are added.
 
 
-## User interface
+## Design model
 
-![User interface diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/SanteyneEmbeddedSystems/Embedded_Chess/master/doc/user_interface.puml)
+### User interface
+
+![User interface model](doc/User_interface.svg "User interface design model")
+
+### Board
+
+![Board model](doc/Board.svg "Board design model")
+
+### Piece
+
+![Piece model](doc/Piece.svg "Piece design model")
+
+### Pawn
+
+![Pawn model](doc/Pawn.svg "Pawn design model")
+
+Pawn class specialize Queen class.  
+It allows Pawn class to re-use the implementation of the abstract methods from
+Piece by Queen class.
+
+### King
+
+![King model](doc/King.svg "King design model")
+
+### Queen, Knight, Rook and Bishop
+
+![Other Pieces model](doc/Others.svg "Other Pieces design model")
