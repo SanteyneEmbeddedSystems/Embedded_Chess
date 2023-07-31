@@ -19,7 +19,7 @@ To ease debug, a controller and a viewer for console are added.
 
 ### Piece
 
-![Piece model](doc/Piece.svg "Piece design model")
+![Piece model](doc/Pieces.svg "Piece design model")
 
 ### Pawn
 
