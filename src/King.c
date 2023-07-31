@@ -2,8 +2,8 @@
 
 #include <stdlib.h> /* NULL */
 
-#include "Chessboard_King.h"
-#include "Piece_Protected.h"
+#include "Piece_Protected.h" /* inheritance */
+#include "Chessboard_King.h" /* association to Chessboard */
 
 
 /******************************************************************************/

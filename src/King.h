@@ -2,6 +2,8 @@
 #define KING_H
 
 #include "Piece.h"
+#include "Position.h"
+#include <stdint.h>
 
 
 /******************************************************************************/

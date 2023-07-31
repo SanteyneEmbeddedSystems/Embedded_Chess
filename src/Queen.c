@@ -1,10 +1,9 @@
 #include "Queen.h"
-
-#include <stdlib.h> /* NULL */
-
-#include "Chessboard_Piece.h"
-#include "Piece_Protected.h"
 #include "Queen_Protected.h"
+
+
+#include "Piece_Protected.h" /* inheritance */
+#include "Chessboard_Piece.h" /* association to Chessboard */
 
 
 /******************************************************************************/

@@ -6,6 +6,7 @@ typedef struct _T_Movement_Data T_Movement_Data;
 
 #include "Piece.h"
 #include "Position.h"
+#include <stdint.h>
 
 
 typedef uint8_t T_Move_Type;

@@ -3,9 +3,10 @@
 
 #include "Chessboard_Piece.h" /* Inheritance */
 
+#include <stdbool.h>
+#include "Position.h"
+#include "Color.h"
 #include "T_Board_State.h"
-
-
 
 
 /* Return true is the piece at position is captureable by the player_color */

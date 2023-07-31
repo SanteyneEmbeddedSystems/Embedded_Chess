@@ -19,4 +19,4 @@ typedef struct {
 extern Piece_Meth Knight_Meth;
 
 
-#endif // KNIGHT_H
+#endif

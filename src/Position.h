@@ -2,7 +2,6 @@
 #define POSITION_H
 
 #include <stdint.h>
-#include <stdbool.h>
 
 typedef uint8_t T_Rank;
 #define RANK_1 0

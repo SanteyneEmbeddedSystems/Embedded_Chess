@@ -18,4 +18,4 @@ T_Color Get_Current_Player(void);
 
 Piece* Get_Piece_By_Rank_And_File( T_Rank rank, T_File file );
 
-#endif // BOARD_MANAGEMENT_H
+#endif

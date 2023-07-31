@@ -4,8 +4,6 @@
 
 #include "Piece.h"
 
-#include <stdbool.h>
-
 
 /******************************************************************************/
 /** Class definition **/
@@ -24,4 +22,4 @@ typedef struct {
 
 extern Piece_Meth Pawn_Meth;
 
-#endif // PAWN_H
+#endif

@@ -1,12 +1,9 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Color.h"
-#include "Position.h"
 #include "Piece.h"
 #include "King.h"
 #include "Rook.h"
-#include "T_Board_State.h"
 
 
 /******************************************************************************/

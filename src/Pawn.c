@@ -2,9 +2,9 @@
 
 #include <stdlib.h> /* NULL */
 
-#include "Chessboard_Pawn.h"
-#include "Piece_Protected.h"
-#include "Queen_Protected.h"
+#include "Piece_Protected.h" /* inheritance */
+#include "Queen_Protected.h" /* inheritance */
+#include "Chessboard_Pawn.h" /* association to Chessboard */
 
 
 /******************************************************************************/

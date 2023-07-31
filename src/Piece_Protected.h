@@ -1,10 +1,11 @@
 #ifndef PIECE_PROTECTED_H
 #define PIECE_PROTECTED_H
 
+
+#include "Piece.h"
 #include "stdbool.h"
-
 #include "Position.h"
-
+#include "Movement_Data.h"
 
 typedef  bool (*T_Can_Capture_Func) ( const Piece*, T_Position , T_Position );
 
