@@ -9,6 +9,8 @@ typedef struct _T_Movement_Data T_Movement_Data;
 #include <stdint.h>
 
 
+#define NB_RECORDABLE_MOVEMENTS 64
+
 typedef uint8_t T_Move_Type;
 #define NORMAL 0
 #define H_ROOK_CASTLING 1

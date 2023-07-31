@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+
+#include "Movement_Data.h"
 #include "Piece.h"
 #include "King.h"
 #include "Rook.h"
@@ -9,9 +11,6 @@
 /******************************************************************************/
 /** Class definition **/
 /******************************************************************************/
-
-#define NB_RECORDABLE_MOVEMENTS 64
-
 typedef struct {
     T_Movement_Data Movements[NB_RECORDABLE_MOVEMENTS];
     Piece* Pieces[8][8];
