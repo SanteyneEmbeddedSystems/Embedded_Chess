@@ -42,6 +42,11 @@ void Play( void )
             {
                 is_command_valid = true;
             }
+            else if( command[0]=='q' && command[1]=='u'
+               && command[2]=='i' && command[3]=='t' )
+            {
+                is_command_valid = true;
+            }
             else
             {
                 is_command_valid = Treat_Command(
@@ -57,6 +62,11 @@ void Play( void )
             && command[2]=='d' && command[3]=='o' )
         {
             Undo_Last_Move();
+        }
+        else if( command[0]=='q' && command[1]=='u'
+               && command[2]=='i' && command[3]=='t' )
+        {
+            break;
         }
         else
         {
