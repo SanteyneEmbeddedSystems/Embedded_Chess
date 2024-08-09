@@ -27,7 +27,7 @@ To ease debug, a controller and a viewer for console are added.
 
 Pawn class specialize Queen class.  
 It allows Pawn class to re-use the implementation of the abstract methods from
-Piece by Queen class.
+Piece by Queen class (after promotion).
 
 ### King
 
@@ -36,3 +36,10 @@ Piece by Queen class.
 ### Queen, Knight, Rook and Bishop
 
 ![Other Pieces model](doc/Others.svg "Other Pieces design model")
+
+## Debug
+
+To ease debug, a controller and a console viewier are added. The controller can
+acces the interface *Board_Management*.
+
+![Console example](doc/chessboard_example.png "Console example")
