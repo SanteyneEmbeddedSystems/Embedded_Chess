@@ -9,7 +9,7 @@
 #include "T_Board_State.h"
 
 
-/* Return true is the piece at position is captureable by the player_color */
+/* Return true is the piece at position is capturable by the player_color */
 bool Is_Position_Capturable( T_Position position, T_Color player_color );
 
 bool Has_Rook_Already_Moved( T_Color rook_color, T_File rook_file );

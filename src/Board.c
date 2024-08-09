@@ -42,7 +42,7 @@ static void Get_Interception_Positions(
     T_Position piece_pos,
     T_Position* interception_positions,
     int8_t* nb_pos );
-static bool Is_Kink_Check_After_Interception(
+static bool Is_King_Check_After_Interception(
     T_Color player_color,
     T_Position king_position,
     T_Position checking_piece_position );
@@ -362,7 +362,7 @@ static bool Is_Checkmate( T_Color player_color )
         }
         else
         {
-            return Is_Kink_Check_After_Interception(
+            return Is_King_Check_After_Interception(
                 player_color,
                 player_king_position,
                 checking_piece_position );
@@ -660,7 +660,7 @@ static void Get_Interception_Positions(
     }
 }
 /*----------------------------------------------------------------------------*/
-static bool Is_Kink_Check_After_Interception(
+static bool Is_King_Check_After_Interception(
     T_Color player_color,
     T_Position king_position,
     T_Position checking_piece_position )
