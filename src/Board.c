@@ -24,17 +24,17 @@ Board Chessboard;
 /** Private methods definition **/
 /******************************************************************************/
 static T_Board_State Compute_Board_Status( void );
-static bool Is_Check( T_Color player_color );
-static bool Is_Checkmate( T_Color player_color );
+static bool Is_In_Check( T_Color player_color );
+static bool Is_Checkmated( T_Color player_color );
 static T_Position Get_King_Position( T_Color king_color );
 static const King* Get_King( T_Color king_color );
 static void Set_Piece( Piece* new_piece, T_Position position );
 static T_Board_State Update_Check_Status( T_Color player_color );
-static bool Is_King_Check_After_Move(
+static bool Is_King_In_Check_After_Move(
     T_Color player_color,
     const King* player_king,
     T_Position player_king_position );
-static bool Is_King_Check_After_Capture(
+static bool Is_King_In_Check_After_Capture(
     T_Color player_color,
     T_Position checking_piece_position );
 static void Get_Interception_Positions(
@@ -42,7 +42,7 @@ static void Get_Interception_Positions(
     T_Position piece_pos,
     T_Position* interception_positions,
     int8_t* nb_pos );
-static bool Is_King_Check_After_Interception(
+static bool Is_King_In_Check_After_Interception(
     T_Color player_color,
     T_Position king_position,
     T_Position checking_piece_position );
@@ -270,7 +270,7 @@ static T_Board_State Compute_Board_Status( void )
 {
     T_Board_State current_status = ON_GOING;
     T_Color current_player = Get_Current_Player();
-    if( true==Is_Check(current_player) )
+    if( true==Is_In_Check(current_player) )
     {
         current_status = Update_Check_Status(current_player);
     }
@@ -281,7 +281,7 @@ static T_Board_State Compute_Board_Status( void )
         {
             opponent_color = WHITE;
         }
-        if( true==Is_Check(opponent_color) )
+        if( true==Is_In_Check(opponent_color) )
         {
             current_status = Update_Check_Status(opponent_color);
         }
@@ -293,7 +293,7 @@ static T_Board_State Compute_Board_Status( void )
     return current_status;
 }
 /*----------------------------------------------------------------------------*/
-static bool Is_Check( T_Color player_color )
+static bool Is_In_Check( T_Color player_color )
 {
     T_Color opponent_color = BLACK;
     T_Position player_king_position;
@@ -305,7 +305,7 @@ static bool Is_Check( T_Color player_color )
     return Is_Position_Capturable( player_king_position ,opponent_color);
 }
 /*----------------------------------------------------------------------------*/
-static bool Is_Checkmate( T_Color player_color )
+static bool Is_Checkmated( T_Color player_color )
 {
     T_Position player_king_position;
     player_king_position = Get_King_Position( player_color );
@@ -339,7 +339,7 @@ static bool Is_Checkmate( T_Color player_color )
 
     if( nb_checking_pieces>=2 )
     { /* Two (or more) pieces setting in check */
-        return Is_King_Check_After_Move(
+        return Is_King_In_Check_After_Move(
             player_color,
             player_king,
             player_king_position);
@@ -347,14 +347,14 @@ static bool Is_Checkmate( T_Color player_color )
     else
     { /* Only on piece setting in check */
         /* Try to move King */
-        if( false==Is_King_Check_After_Move(
+        if( false==Is_King_In_Check_After_Move(
                 player_color,
                 player_king,
                 player_king_position) )
         {
             return false;
         }
-        else if( false==Is_King_Check_After_Capture(
+        else if( false==Is_King_In_Check_After_Capture(
                     player_color,
                     checking_piece_position ))
         {
@@ -362,7 +362,7 @@ static bool Is_Checkmate( T_Color player_color )
         }
         else
         {
-            return Is_King_Check_After_Interception(
+            return Is_King_In_Check_After_Interception(
                 player_color,
                 player_king_position,
                 checking_piece_position );
@@ -402,7 +402,7 @@ static void Set_Piece( Piece* new_piece, T_Position position )
 static T_Board_State Update_Check_Status( T_Color player_color )
 {
     T_Board_State player_status = ON_GOING;
-    if( true==Is_Checkmate(player_color) )
+    if( true==Is_Checkmated(player_color) )
     {
         switch( player_color )
         {
@@ -488,7 +488,7 @@ static void Cancel_Move( T_Movement_Data* movement )
     Undo_Piece_Move( movement->moved_piece, movement );
 }
 /*----------------------------------------------------------------------------*/
-static bool Is_King_Check_After_Move(
+static bool Is_King_In_Check_After_Move(
     T_Color player_color,
     const King* player_king,
     T_Position player_king_position )
@@ -522,7 +522,7 @@ static bool Is_King_Check_After_Move(
             Try_Move( &movement );
 
             /* Verify status */
-            bool king_is_check = Is_Check( player_color );
+            bool king_is_check = Is_In_Check( player_color );
 
             /* Cancel move */
             Cancel_Move( &movement );
@@ -537,7 +537,7 @@ static bool Is_King_Check_After_Move(
     return true;
 }
 /*----------------------------------------------------------------------------*/
-static bool Is_King_Check_After_Capture(
+static bool Is_King_In_Check_After_Capture(
     T_Color player_color,
     T_Position checking_piece_position )
 {
@@ -565,7 +565,7 @@ static bool Is_King_Check_After_Capture(
                         Try_Move( &movement );
 
                         /* Verify status */
-                        bool king_is_check = Is_Check( player_color );
+                        bool king_is_check = Is_In_Check( player_color );
 
                         /* Cancel move */
                         Cancel_Move( &movement );
@@ -660,7 +660,7 @@ static void Get_Interception_Positions(
     }
 }
 /*----------------------------------------------------------------------------*/
-static bool Is_King_Check_After_Interception(
+static bool Is_King_In_Check_After_Interception(
     T_Color player_color,
     T_Position king_position,
     T_Position checking_piece_position )
@@ -702,7 +702,7 @@ static bool Is_King_Check_After_Interception(
                             Try_Move( &movement );
 
                             /* Verify status */
-                            bool king_is_check = Is_Check( player_color );
+                            bool king_is_check = Is_In_Check( player_color );
 
                             /* Cancel move */
                             Cancel_Move( &movement );
