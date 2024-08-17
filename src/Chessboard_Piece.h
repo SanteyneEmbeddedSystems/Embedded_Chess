@@ -5,7 +5,7 @@
 #include "Piece.h"
 
 
-Piece* Get_Piece_By_Rank_And_File( T_Rank rank, T_File file );
+Piece* Get_Piece( T_Rank rank, T_File file );
 Piece* Get_Piece_By_Position( T_Position position );
 
 #endif

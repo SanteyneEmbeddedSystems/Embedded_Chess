@@ -133,8 +133,8 @@ static bool Is_King_Movement_Valid(
             if ( false==Has_Rook_Already_Moved( king_color, FILE_H ) )
             {
                 /* Check there are no piece between the king and the rook.*/
-                if( Get_Piece_By_Rank_And_File(king_rank,FILE_F)==NULL &&
-                    Get_Piece_By_Rank_And_File(king_rank,FILE_G)==NULL )
+                if( Get_Piece( king_rank, FILE_F )==NULL &&
+                    Get_Piece( king_rank, FILE_G )==NULL )
                 {
                     /* Verify the king does not pass through or finish on a
                     square attacked by an enemy piece */
@@ -155,8 +155,8 @@ static bool Is_King_Movement_Valid(
             if ( false==Has_Rook_Already_Moved( king_color, FILE_A ) )
             {
                 /* Check there are no piece between the king and the rook.*/
-                if( Get_Piece_By_Rank_And_File(king_rank,FILE_D)==NULL &&
-                    Get_Piece_By_Rank_And_File(king_rank,FILE_C)==NULL )
+                if( Get_Piece( king_rank, FILE_D )==NULL &&
+                    Get_Piece( king_rank, FILE_C )==NULL )
                 {
                     /* Verify the king does not pass through or finish on a
                     square attacked by an enemy piece */

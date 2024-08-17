@@ -49,7 +49,7 @@ bool Can_Capture_Straight(
         }
         for( T_Rank rank = start ; rank < end ; rank++ )
         {
-            if( NULL!=Get_Piece_By_Rank_And_File(rank,piece_file) )
+            if( NULL!=Get_Piece( rank, piece_file ) )
             {
                 return false;
             }
@@ -66,7 +66,7 @@ bool Can_Capture_Straight(
         }
         for( T_File file = start ; file < end ; file++ )
         {
-            if( NULL!=Get_Piece_By_Rank_And_File(piece_rank,file) )
+            if( NULL!=Get_Piece( piece_rank, file ) )
             {
                 return false;
             }
@@ -92,7 +92,7 @@ bool Can_Capture_Diagonal(
     { /* movement is along a diagonal */
         if( diff_rank!=1 && diff_rank!=-1 )
         { /* Movement is more than 1 square */
-            /* Test squares between initial bishop position and
+            /* Test squares between initial piece position and
             capture position. */
             int8_t rank_modif = -1;
             if( diff_rank>0 )
@@ -109,7 +109,7 @@ bool Can_Capture_Diagonal(
             {
                 piece_rank += rank_modif;
                 piece_file += file_modif;
-                if( NULL!=Get_Piece_By_Rank_And_File(piece_rank,piece_file) )
+                if( NULL!=Get_Piece( piece_rank, piece_file ) )
                 {
                     return false;
                 }

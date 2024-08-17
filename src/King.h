@@ -10,7 +10,7 @@
 /** Class definition **/
 /******************************************************************************/
 typedef struct {
-    /* Inherit from Piece */
+    /* Inherits from Piece */
     Piece Super;
     T_Position Current_Position;
     uint8_t First_Move_Index;

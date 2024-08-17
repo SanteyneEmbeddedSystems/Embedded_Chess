@@ -107,9 +107,7 @@ static bool Is_Pawn_Movement_Valid(
                 case WHITE:
                     if( initial_rank==RANK_2 && final_rank==RANK_4 )
                     {
-                        Piece* front_piece = Get_Piece_By_Rank_And_File(
-                            RANK_3,
-                            final_file);
+                        Piece* front_piece = Get_Piece( RANK_3, final_file);
                         if( NULL==front_piece )
                         {
                             movement->move_type = TWO_SQUARES;
@@ -124,9 +122,7 @@ static bool Is_Pawn_Movement_Valid(
                 case BLACK:
                     if( initial_rank==RANK_7 && final_rank==RANK_5 )
                     {
-                        Piece* front_piece = Get_Piece_By_Rank_And_File(
-                            RANK_6,
-                            final_file);
+                        Piece* front_piece = Get_Piece( RANK_6, final_file);
                         if( NULL==front_piece )
                         {
                             movement->move_type = TWO_SQUARES;
@@ -232,7 +228,7 @@ static bool Is_En_Passant(
     /* Verify that there is a piece at en passant capture position. */
     T_File final_file =  Get_File(final_position);
     Piece* captured_piece;
-    captured_piece = Get_Piece_By_Rank_And_File( opponent_rank, final_file );
+    captured_piece = Get_Piece( opponent_rank, final_file );
     if( NULL!=captured_piece )
     {
         /* Verify that the piece is capturable. */

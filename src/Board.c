@@ -23,25 +23,48 @@ Board Chessboard;
 /******************************************************************************/
 /** Private methods definition **/
 /******************************************************************************/
+/* Compute_Board_Status
+Analyzes the chessboard to define its status.*/
 static T_Board_State Compute_Board_Status( void );
-static bool Is_In_Check( T_Color player_color );
-static bool Is_Checkmated( T_Color player_color );
-static T_Position Get_King_Position( T_Color king_color );
-static const King* Get_King( T_Color king_color );
-static void Set_Piece( Piece* new_piece, T_Position position );
+
+/* Sub function of Compute_Board_Status.
+Shall be called when Is_In_Check returns TRUE.
+Allows to define if player is just in check or checkmated.*/
 static T_Board_State Update_Check_Status( T_Color player_color );
+
+/* Returns TRUE is the player (defined by its color) is in check. */
+static bool Is_In_Check( T_Color player_color );
+
+/* Returns TRUE is the player (defined by its color) is checkmated. */
+static bool Is_Checkmated( T_Color player_color );
+
+/* Returns TRUE is the player to move, i.e. not the current player, (defined by
+its color) is stalemated.
+Assumes that player to move is not in check (nor checkmated). */
+static bool Is_Stalemated( T_Color player_to_move );
+
+static T_Position Get_King_Position( T_Color king_color );
+
+static const King* Get_King( T_Color king_color );
+
+/* Modifies the chessboard by setting the piece 'new_piece' at 'position' */
+static void Set_Piece( Piece* new_piece, T_Position position );
+
 static bool Is_King_In_Check_After_Move(
     T_Color player_color,
     const King* player_king,
     T_Position player_king_position );
+
 static bool Is_King_In_Check_After_Capture(
     T_Color player_color,
     T_Position checking_piece_position );
+
 static void Get_Interception_Positions(
     T_Position king_pos,
     T_Position piece_pos,
     T_Position* interception_positions,
     int8_t* nb_pos );
+
 static bool Is_King_In_Check_After_Interception(
     T_Color player_color,
     T_Position king_position,
@@ -52,11 +75,10 @@ static void Do_Castling(
     T_Rank rook_rank,
     bool undo );
 
-
-/* Perform movement without verifying/updating Kings status. */
+/* Performs movement without verifying/updating Kings status. */
 static void Try_Move( T_Movement_Data* movement );
 
-/* Cancel a Try_Move */
+/* Cancels a Try_Move. */
 static void Cancel_Move( T_Movement_Data* movement );
 
 
@@ -94,7 +116,7 @@ T_Color Get_Current_Player(void)
     return ((Chessboard.Nb_Movements)%2)==0 ? WHITE : BLACK;
 }
 /*----------------------------------------------------------------------------*/
-Piece* Get_Piece_By_Rank_And_File( T_Rank rank, T_File file )
+Piece* Get_Piece( T_Rank rank, T_File file )
 {
     return Chessboard.Pieces[rank][file];
 }
@@ -128,13 +150,10 @@ T_Board_State Move_Piece_On_Board(
         }
     }
     /* Check the color of the piece on final position. */
-    Piece* destination_piece = Get_Piece_By_Position( final_position );
-    if( NULL!=destination_piece )
+    Piece* dest_piece = Get_Piece_By_Position( final_position );
+    if( NULL!=dest_piece && Get_Color(dest_piece)==current_player )
     {
-        if( Get_Color( destination_piece ) == current_player )
-        {
-            return INVALID;
-        }
+        return INVALID;
     }
 
     /*------------------------------------------------------------------------*/
@@ -218,23 +237,20 @@ bool Has_Rook_Already_Moved( T_Color rook_color, T_File rook_file )
 /*----------------------------------------------------------------------------*/
 bool Is_Position_Capturable( T_Position position, T_Color player_color )
 {
-    for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
+    for( T_Rank rank=RANK_1 ; rank<=RANK_8 ; rank++ )
     {
-        for( T_File file = FILE_A ; file <= FILE_H ; file++ )
+        for( T_File file=FILE_A ; file<=FILE_H ; file++ )
         {
-            Piece* current_piece = Get_Piece_By_Rank_And_File(rank,file);
-            if( current_piece!=NULL )
+            Piece* current_piece = Get_Piece( rank, file );
+            if( current_piece!=NULL && Get_Color(current_piece)==player_color )
             {
-                if( Get_Color(current_piece)==player_color )
+                T_Position current_position = Create_Position(rank,file);
+                if( true==Can_Capture_At_Position(
+                    current_piece,
+                    current_position,
+                    position) )
                 {
-                    T_Position current_position = Create_Position(rank,file);
-                    if( true==Can_Capture_At_Position(
-                        current_piece,
-                        current_position,
-                        position) )
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -287,8 +303,15 @@ static T_Board_State Compute_Board_Status( void )
         }
         else
         {
-            current_status = ON_GOING;
-        }
+            if( true==Is_Stalemated(opponent_color) )
+            {
+                current_status = STALEMATE;
+            }
+            else
+            {
+                current_status = ON_GOING;
+            }
+    }
     }
     return current_status;
 }
@@ -302,7 +325,7 @@ static bool Is_In_Check( T_Color player_color )
         opponent_color = WHITE;
     }
     player_king_position = Get_King_Position( player_color );
-    return Is_Position_Capturable( player_king_position ,opponent_color);
+    return Is_Position_Capturable( player_king_position, opponent_color);
 }
 /*----------------------------------------------------------------------------*/
 static bool Is_Checkmated( T_Color player_color )
@@ -314,24 +337,21 @@ static bool Is_Checkmated( T_Color player_color )
     /* Count nb of pieces setting in check */
     T_Position checking_piece_position;
     uint8_t nb_checking_pieces = 0;
-    for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
+    for( T_Rank rank=RANK_1 ; rank<=RANK_8 ; rank++ )
     {
-        for( T_File file = FILE_A ; file <= FILE_H ; file++ )
+        for( T_File file=FILE_A ; file<=FILE_H ; file++ )
         {
-            Piece* current_piece = Get_Piece_By_Rank_And_File(rank,file);
-            if( current_piece!=NULL )
+            Piece* current_piece = Get_Piece( rank, file );
+            if( current_piece!=NULL && Get_Color(current_piece)!=player_color )
             {
-                if( Get_Color(current_piece)!=player_color )
+                T_Position current_position = Create_Position( rank, file );
+                if( true==Can_Capture_At_Position(
+                    current_piece,
+                    current_position,
+                    player_king_position) )
                 {
-                    T_Position current_position = Create_Position(rank,file);
-                    if( true==Can_Capture_At_Position(
-                        current_piece,
-                        current_position,
-                        player_king_position) )
-                    {
-                        nb_checking_pieces++;
-                        checking_piece_position = current_position;
-                    }
+                    nb_checking_pieces++;
+                    checking_piece_position = current_position;
                 }
             }
         }
@@ -370,16 +390,74 @@ static bool Is_Checkmated( T_Color player_color )
     }
 }
 /*----------------------------------------------------------------------------*/
+static bool Is_Stalemated( T_Color next_player )
+{
+    /* Parse the whole chessboard. */
+    for( T_Rank start_rank=RANK_1 ; start_rank<=RANK_8 ; start_rank++ )
+    {
+        for( T_File start_file=FILE_A ; start_file<=FILE_H ; start_file++ )
+        {
+            /* Get pieces of player to move */
+            Piece* moving_piece = Get_Piece( start_rank, start_file );
+            if( moving_piece!=NULL && Get_Color(moving_piece)==next_player )
+            {
+                /* Try to move the piece at any position. */
+                T_Position start_pos = Create_Position( start_rank, start_file);
+                for( T_Rank end_rank=RANK_1 ; end_rank<=RANK_8 ; end_rank++ )
+                {
+                    for( T_File end_file=FILE_A ; end_file<=FILE_H ; end_file++)
+                    {
+                        /* Except for start position */
+                        if( start_file!=end_file && start_rank!=end_rank )
+                        {
+                            /* Verify if the validity of the movement has to be
+                            checked : end position is empty or occupied by
+                            opponent. */
+                            bool verify_validity = true;
+                            Piece* end_piece = Get_Piece( end_rank, end_file );
+                            if( end_piece!=NULL
+                               && Get_Color(end_piece)==next_player )
+                            {
+                                verify_validity = false;
+                            }
+
+                            if( true==verify_validity )
+                            {
+                                T_Movement_Data movement = Create_Movement_Data(
+                                    moving_piece,
+                                    start_pos,
+                                    Create_Position( end_rank, end_file ),
+                                    0 /* no matter, will not be stored */ );
+
+                                if( true==Is_Movement_Valid(
+                                            moving_piece,
+                                            &movement ) )
+                                {
+                                    Try_Move( &movement );
+                                    bool king_is_in_check;
+                                    king_is_in_check = Is_In_Check(next_player);
+                                    Cancel_Move( &movement );
+
+                                    /* Return false if player to move is not in
+                                    check. */
+                                    if( false==king_is_in_check )
+                                    {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+/*----------------------------------------------------------------------------*/
 static T_Position Get_King_Position( T_Color king_color )
 {
-    if(WHITE==king_color)
-    {
-        return Get_Position(Chessboard.White_King);
-    }
-    else
-    {
-        return Get_Position(Chessboard.Black_King);
-    }
+    return Get_Position(Get_King(king_color));
 }
 /*----------------------------------------------------------------------------*/
 static const King* Get_King( T_Color king_color )
@@ -489,7 +567,7 @@ static void Cancel_Move( T_Movement_Data* movement )
 }
 /*----------------------------------------------------------------------------*/
 static bool Is_King_In_Check_After_Move(
-    T_Color player_color,
+    T_Color player,
     const King* player_king,
     T_Position player_king_position )
 {
@@ -502,12 +580,9 @@ static bool Is_King_In_Check_After_Move(
         bool is_square_capturable = true;
         Piece* destination_piece;
         destination_piece = Get_Piece_By_Position(captured_position);
-        if( NULL!=destination_piece )
+        if( NULL!=destination_piece && Get_Color(destination_piece)==player )
         {
-            if( Get_Color( destination_piece ) == player_color )
-            {
-                is_square_capturable = false;
-            }
+            is_square_capturable = false;
         }
 
         if(true==is_square_capturable)
@@ -522,7 +597,7 @@ static bool Is_King_In_Check_After_Move(
             Try_Move( &movement );
 
             /* Verify status */
-            bool king_is_check = Is_In_Check( player_color );
+            bool king_is_check = Is_In_Check(player);
 
             /* Cancel move */
             Cancel_Move( &movement );
@@ -545,36 +620,33 @@ static bool Is_King_In_Check_After_Capture(
     {
         for( T_File file = FILE_A ; file <= FILE_H ; file++ )
         {
-            Piece* current_piece = Get_Piece_By_Rank_And_File(rank,file);
-            if( current_piece!=NULL )
+            Piece* current_piece = Get_Piece( rank, file );
+            if( current_piece!=NULL && Get_Color(current_piece)==player_color )
             {
-                if( Get_Color(current_piece)==player_color )
+                T_Position current_position = Create_Position(rank,file);
+                if( true==Can_Capture_At_Position(
+                    current_piece,
+                    current_position,
+                    checking_piece_position) )
                 {
-                    T_Position current_position = Create_Position(rank,file);
-                    if( true==Can_Capture_At_Position(
+                    T_Movement_Data movement = Create_Movement_Data(
                         current_piece,
                         current_position,
-                        checking_piece_position) )
+                        checking_piece_position,
+                        0 /* no matter, will not be stored */ );
+
+                    Try_Move( &movement );
+
+                    /* Verify status */
+                    bool king_is_check = Is_In_Check( player_color );
+
+                    /* Cancel move */
+                    Cancel_Move( &movement );
+
+                    /* Return if player is not check */
+                    if( false==king_is_check )
                     {
-                        T_Movement_Data movement = Create_Movement_Data(
-                            current_piece,
-                            current_position,
-                            checking_piece_position,
-                            0 /* no matter, will not be stored */ );
-
-                        Try_Move( &movement );
-
-                        /* Verify status */
-                        bool king_is_check = Is_In_Check( player_color );
-
-                        /* Cancel move */
-                        Cancel_Move( &movement );
-
-                        /* Return if player is not check */
-                        if( false==king_is_check )
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
@@ -682,36 +754,34 @@ static bool Is_King_In_Check_After_Interception(
         {
             for( T_File file = FILE_A ; file <= FILE_H ; file++ )
             {
-                interception_piece = Get_Piece_By_Rank_And_File(rank,file);
-                if( interception_piece!=NULL )
+                interception_piece = Get_Piece( rank, file );
+                if( interception_piece!=NULL
+                   && Get_Color(interception_piece)==player_color )
                 {
-                    if( Get_Color(interception_piece)==player_color )
+                    interception_piece_position = Create_Position(rank,file);
+                    if( true==Can_Capture_At_Position(
+                        interception_piece,
+                        interception_piece_position,
+                        interception_positions[pos_idx]) )
                     {
-                        interception_piece_position= Create_Position(rank,file);
-                        if( true==Can_Capture_At_Position(
+                        T_Movement_Data movement = Create_Movement_Data(
                             interception_piece,
                             interception_piece_position,
-                            interception_positions[pos_idx]) )
+                            interception_positions[pos_idx],
+                            0 /* no matter, will not be stored */ );
+
+                        Try_Move( &movement );
+
+                        /* Verify status */
+                        bool king_is_check = Is_In_Check( player_color );
+
+                        /* Cancel move */
+                        Cancel_Move( &movement );
+
+                        /* Return if player is not check */
+                        if( false==king_is_check )
                         {
-                            T_Movement_Data movement = Create_Movement_Data(
-                                interception_piece,
-                                interception_piece_position,
-                                interception_positions[pos_idx],
-                                0 /* no matter, will not be stored */ );
-
-                            Try_Move( &movement );
-
-                            /* Verify status */
-                            bool king_is_check = Is_In_Check( player_color );
-
-                            /* Cancel move */
-                            Cancel_Move( &movement );
-
-                            /* Return if player is not check */
-                            if( false==king_is_check )
-                            {
-                                return false;
-                            }
+                            return false;
                         }
                     }
                 }
@@ -745,7 +815,7 @@ static void Do_Castling(
     }
 
 
-    if(undo)
+    if(true==undo)
     {
         T_Position temp = rook_final_position;
         rook_final_position = rook_initial_position;

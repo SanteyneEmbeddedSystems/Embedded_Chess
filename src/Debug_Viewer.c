@@ -127,7 +127,7 @@ void Display_Board( void )
         for( int file = 0 ; file<=7 ; file++ )
         {
             Piece* current_piece = NULL;
-            current_piece = Get_Piece_By_Rank_And_File( rank, file );
+            current_piece = Get_Piece( rank, file );
             if (NULL!=current_piece)
             {
                 rank_piece_color[file] = Get_Color(current_piece);
@@ -236,6 +236,7 @@ void Display_Board( void )
             printf("Checkmate !");
             break;
         case STALEMATE :
+            printf("Stalemate !");
             break;
     }
 }

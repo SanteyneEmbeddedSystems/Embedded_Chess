@@ -16,6 +16,6 @@ T_Board_State Get_State(void);
 
 T_Color Get_Current_Player(void);
 
-Piece* Get_Piece_By_Rank_And_File( T_Rank rank, T_File file );
+Piece* Get_Piece( T_Rank rank, T_File file );
 
 #endif

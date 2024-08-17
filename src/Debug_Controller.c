@@ -32,6 +32,7 @@ void Play( void )
     T_Position end_position;
 
     Display_Board();
+    T_Board_State state;
     do
     {
         while(is_command_valid==false)
@@ -70,13 +71,18 @@ void Play( void )
         }
         else
         {
-            start_position = Create_Position_From_Chars( start_file, start_rank );
+            start_position = Create_Position_From_Chars(
+                start_file,
+                start_rank );
             end_position = Create_Position_From_Chars( end_file, end_rank );
             Move_Piece_On_Board( start_position, end_position );
         }
         is_command_valid = false;
         Display_Board();
-    } while( BLACK_CHECKMATE!=Get_State() && WHITE_CHECKMATE!=Get_State() );
+        state = Get_State();
+    } while( BLACK_CHECKMATE!=state
+            && WHITE_CHECKMATE!=state
+            && STALEMATE!=state );
 
     getchar();
 }

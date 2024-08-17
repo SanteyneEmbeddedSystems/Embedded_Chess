@@ -9,7 +9,7 @@
 /** Class definition **/
 /******************************************************************************/
 typedef struct {
-    /* Inherit from Piece */
+    /* Inherits from Piece */
     Piece Super;
 } Pawn;
 

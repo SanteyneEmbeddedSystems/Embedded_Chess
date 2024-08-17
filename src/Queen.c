@@ -40,15 +40,17 @@ bool Can_Queen_Capture_At_Position(
     T_File capture_file = Get_File(capture_position);
 
     if( true==Can_Capture_Straight(
-        queen_rank,queen_file,capture_rank,capture_file) )
+                queen_rank, queen_file, capture_rank, capture_file )
+       || true==Can_Capture_Diagonal(
+                    queen_rank, queen_file, capture_rank, capture_file ) )
     {
         return true;
     }
     else
     {
-        return Can_Capture_Diagonal(
-            queen_rank,queen_file,capture_rank,capture_file);
+        return false;
     }
+
 }
 /*----------------------------------------------------------------------------*/
 char Get_Queen_Identifier( const Queen* Me )
