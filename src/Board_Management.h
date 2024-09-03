@@ -12,6 +12,11 @@ T_Board_State Move_Piece_On_Board(
 
 T_Board_State Undo_Last_Move(void);
 
+void Find_Best_Move(
+    uint8_t evaluation_depth,
+    T_Position* best_initial_position,
+    T_Position* best_final_position );
+
 T_Board_State Get_State(void);
 
 T_Color Get_Current_Player(void);

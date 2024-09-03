@@ -81,6 +81,21 @@ static void Try_Move( T_Movement_Data* movement );
 /* Cancels a Try_Move. */
 static void Cancel_Move( T_Movement_Data* movement );
 
+static int16_t Evaluate( void );
+
+static int16_t Evaluate_At_Depth(
+    uint8_t current_depth,
+    uint8_t evaluation_depth,
+    int16_t alpha,
+    int16_t beta );
+
+
+/******************************************************************************/
+/** Macro **/
+/******************************************************************************/
+#define MAX( a, b ) (a > b) ? a : b
+#define MIN( a, b ) (a < b) ? a : b
+
 
 /******************************************************************************/
 /** Public methods implementation **/
@@ -277,6 +292,64 @@ T_Board_State Undo_Last_Move(void)
     return undo_status;
 }
 /*----------------------------------------------------------------------------*/
+void Find_Best_Move(
+    uint8_t evaluation_depth,
+    T_Position* best_initial_position,
+    T_Position* best_final_position )
+{
+    int16_t best_val = INT16_MAX;
+
+    T_Color current_player = Get_Current_Player();
+    if( WHITE==current_player )
+    {
+        best_val = INT16_MIN;
+    }
+
+    for( T_Rank i_rank = RANK_1 ; i_rank<= RANK_8 ; i_rank++ )
+    {
+        for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
+        {
+            T_Position i_position = Create_Position( i_rank, i_file );
+
+            for( T_Rank f_rank = RANK_1 ; f_rank<= RANK_8 ; f_rank++ )
+            {
+                for( T_File f_file = FILE_A ; f_file <= FILE_H ; f_file++ )
+                {
+                    T_Position f_position = Create_Position( f_rank, f_file );
+                    T_Board_State move_state;
+                    move_state = Move_Piece_On_Board( i_position, f_position );
+                    if( INVALID!=move_state )
+                    {
+                        int16_t move_val = Evaluate_At_Depth(
+                            1, /* first step */
+                            evaluation_depth,
+                            INT16_MIN, /* alpha init */
+                            INT16_MAX); /* beta init */
+                        Undo_Last_Move();
+
+                        /* Check if the move is better and record it if yes. */
+                        bool move_is_better = false;
+                        if( WHITE==current_player && move_val > best_val )
+                        {
+                            move_is_better = true;
+                        }
+                        else if( BLACK==current_player && move_val < best_val )
+                        {
+                            move_is_better = true;
+                        }
+                        if( true==move_is_better )
+                        {
+                            *best_initial_position = i_position;
+                            *best_final_position = f_position;
+                            best_val = move_val;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 
 /******************************************************************************/
@@ -826,4 +899,133 @@ static void Do_Castling(
     rook_to_move = Get_Piece_By_Position(rook_initial_position);
     Set_Piece( rook_to_move, rook_final_position );
     Set_Piece( NULL, rook_initial_position );
+}
+/*----------------------------------------------------------------------------*/
+static int16_t Evaluate( void )
+{
+    int16_t score = 0;
+
+    T_Board_State current_state = Get_State();
+    switch( current_state )
+    {
+        case WHITE_CHECKMATE :
+            return INT16_MIN;
+        case BLACK_CHECKMATE :
+            return INT16_MAX;
+        case STALEMATE :
+            return 0;
+        default:
+            break;
+    }
+
+    for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
+    {
+        for( T_File file = FILE_A ; file <= FILE_H ; file++ )
+        {
+            Piece* piece = Get_Piece( rank, file );
+            if( NULL!=piece )
+            {
+                score += Get_Score( piece );
+            }
+        }
+    }
+
+    return score;
+}
+/*----------------------------------------------------------------------------*/
+static int16_t Evaluate_At_Depth(
+    uint8_t current_depth,
+    uint8_t evaluation_depth,
+    int16_t alpha,
+    int16_t beta )
+{
+    T_Board_State current_state = Get_State();
+     if( WHITE_CHECKMATE==current_state
+        || BLACK_CHECKMATE==current_state
+        || STALEMATE==current_state
+        || current_depth==evaluation_depth )
+    {
+        return Evaluate();
+    }
+
+    int16_t evaluation;
+    int16_t move_val;
+    T_Color current_player = Get_Current_Player();
+    if( WHITE==current_player ) /* WHITE maximizes */
+    {
+        evaluation = INT16_MIN;
+
+        for( T_Rank i_rank = RANK_1 ; i_rank<= RANK_8 ; i_rank++ )
+        {
+            for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
+            {
+                T_Position i_pos = Create_Position( i_rank, i_file );
+
+                for( T_Rank f_rank = RANK_1 ; f_rank<= RANK_8 ; f_rank++ )
+                {
+                    for( T_File f_file = FILE_A ; f_file <= FILE_H ; f_file++ )
+                    {
+                        T_Position f_pos = Create_Position( f_rank, f_file );
+                        T_Board_State move_state;
+                        move_state = Move_Piece_On_Board( i_pos, f_pos );
+                        if( INVALID!=move_state )
+                        {
+                            move_val = Evaluate_At_Depth(
+                                current_depth + 1,
+                                evaluation_depth,
+                                alpha,
+                                beta);
+                            Undo_Last_Move();
+                            evaluation = MAX( evaluation, move_val );
+                            if( evaluation >= beta )
+                            {
+                                return evaluation;
+                            }
+                            alpha = MAX( alpha, evaluation );
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+    else /* BLACK minimizes */
+    {
+        evaluation = INT16_MAX;
+
+        for( T_Rank i_rank = RANK_1 ; i_rank<= RANK_8 ; i_rank++ )
+        {
+            for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
+            {
+                T_Position i_pos = Create_Position( i_rank, i_file );
+
+                for( T_Rank f_rank = RANK_1 ; f_rank<= RANK_8 ; f_rank++ )
+                {
+                    for( T_File f_file = FILE_A ; f_file <= FILE_H ; f_file++ )
+                    {
+                        T_Position f_pos = Create_Position( f_rank, f_file );
+                        T_Board_State move_state;
+                        move_state = Move_Piece_On_Board( i_pos, f_pos );
+                        if( INVALID!=move_state )
+                        {
+                            move_val = Evaluate_At_Depth(
+                                current_depth + 1,
+                                evaluation_depth,
+                                alpha,
+                                beta);
+                            Undo_Last_Move();
+                            evaluation = MIN( evaluation, move_val );
+                            if( alpha >= evaluation )
+                            {
+                                return evaluation;
+                            }
+                            beta = MIN( beta, evaluation );
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+    return evaluation;
 }

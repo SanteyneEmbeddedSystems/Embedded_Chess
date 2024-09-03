@@ -24,7 +24,8 @@ typedef struct {
 
 struct _Piece {
     const Piece_Meth* Virtual_Methods;
-    T_Color Color;
+    const T_Color Color;
+    int8_t Score;
 };
 
 
@@ -32,7 +33,7 @@ struct _Piece {
 /** Public methods **/
 /******************************************************************************/
 T_Color Get_Color( const Piece* Me );
-
+int8_t Get_Score( const Piece* Me );
 
 /******************************************************************************/
 /** Virtual methods **/

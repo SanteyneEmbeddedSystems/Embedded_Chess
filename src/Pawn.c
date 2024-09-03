@@ -180,6 +180,14 @@ static void Move_Pawn( Pawn* Me, T_Movement_Data* movement )
     if( PROMOTION==movement->move_type )
     {
         Me->Super.Virtual_Methods = &Promoted_Pawn_Meth;
+        if( WHITE==Get_Color( (Piece*)Me ) )
+        {
+            Me->Super.Score = 9;
+        }
+        else
+        {
+            Me->Super.Score = -9;
+        }
     }
 }
 /*----------------------------------------------------------------------------*/
@@ -188,6 +196,14 @@ static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement)
     if( PROMOTION==movement->move_type )
     {
         Me->Super.Virtual_Methods = &Pawn_Meth;
+        if( WHITE==Get_Color( (Piece*)Me ) )
+        {
+            Me->Super.Score = 1;
+        }
+        else
+        {
+            Me->Super.Score = -1;
+        }
     }
 }
 /*----------------------------------------------------------------------------*/

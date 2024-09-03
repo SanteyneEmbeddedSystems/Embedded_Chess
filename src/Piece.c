@@ -14,7 +14,11 @@ T_Color Get_Color( const Piece* Me )
 {
     return Me->Color;
 }
-
+/*----------------------------------------------------------------------------*/
+int8_t Get_Score( const Piece* Me )
+{
+    return Me->Score;
+}
 
 /******************************************************************************/
 /** Protected methods implementation**/

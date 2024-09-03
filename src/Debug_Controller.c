@@ -48,6 +48,11 @@ void Play( void )
             {
                 is_command_valid = true;
             }
+            else if( command[0]=='p' && command[1]=='l'
+               && command[2]=='a' && command[3]=='y' )
+            {
+                is_command_valid = true;
+            }
             else
             {
                 is_command_valid = Treat_Command(
@@ -68,6 +73,12 @@ void Play( void )
                && command[2]=='i' && command[3]=='t' )
         {
             break;
+        }
+        else if( command[0]=='p' && command[1]=='l'
+               && command[2]=='a' && command[3]=='y' )
+        {
+            Find_Best_Move( 4, &start_position, &end_position );
+            Move_Piece_On_Board( start_position, end_position );
         }
         else
         {
