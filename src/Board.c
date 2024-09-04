@@ -384,7 +384,7 @@ static T_Board_State Compute_Board_Status( void )
             {
                 current_status = ON_GOING;
             }
-    }
+        }
     }
     return current_status;
 }
@@ -903,8 +903,6 @@ static void Do_Castling(
 /*----------------------------------------------------------------------------*/
 static int16_t Evaluate( void )
 {
-    int16_t score = 0;
-
     T_Board_State current_state = Get_State();
     switch( current_state )
     {
@@ -918,6 +916,7 @@ static int16_t Evaluate( void )
             break;
     }
 
+    int16_t pieces_score = 0;
     for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
     {
         for( T_File file = FILE_A ; file <= FILE_H ; file++ )
@@ -925,12 +924,90 @@ static int16_t Evaluate( void )
             Piece* piece = Get_Piece( rank, file );
             if( NULL!=piece )
             {
-                score += Get_Score( piece );
+                pieces_score += Get_Score( piece );
             }
         }
     }
 
-    return score;
+    /* Evaluate center */
+    int16_t center_score = 0;
+    Piece* center_piece = Get_Piece( RANK_4, FILE_D );
+    if( NULL!=center_piece )
+    {
+        if( WHITE==Get_Color(center_piece) )
+        {
+            center_score++;
+        }
+        else
+        {
+            center_score--;
+        }
+    }
+    center_piece = Get_Piece( RANK_5, FILE_D );
+    if( NULL!=center_piece )
+    {
+        if( WHITE==Get_Color(center_piece) )
+        {
+            center_score++;
+        }
+        else
+        {
+            center_score--;
+        }
+    }
+    center_piece = Get_Piece( RANK_4, FILE_E );
+    if( NULL!=center_piece )
+    {
+        if( WHITE==Get_Color(center_piece) )
+        {
+            center_score++;
+        }
+        else
+        {
+            center_score--;
+        }
+    }
+    center_piece = Get_Piece( RANK_5, FILE_E );
+    if( NULL!=center_piece )
+    {
+        if( WHITE==Get_Color(center_piece) )
+        {
+            center_score++;
+        }
+        else
+        {
+            center_score--;
+        }
+    }
+
+    /* Evaluate King security */
+    int16_t security_score = 0;
+    T_Position possible_king_pos[8];
+    int8_t nb_pos;
+    const King* player_king = Get_King(WHITE);
+    Get_Possible_Positions( player_king, possible_king_pos, &nb_pos );
+    for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+    {
+        Piece* protecting_piece;
+        protecting_piece = Get_Piece_By_Position( possible_king_pos[pos_idx] );
+        if( NULL!=protecting_piece && WHITE==Get_Color(protecting_piece) )
+        {
+            security_score++;
+        }
+    }
+    player_king = Get_King(BLACK);
+    Get_Possible_Positions( player_king, possible_king_pos, &nb_pos );
+    for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+    {
+        Piece* protecting_piece;
+        protecting_piece = Get_Piece_By_Position( possible_king_pos[pos_idx] );
+        if( NULL!=protecting_piece && BLACK==Get_Color(protecting_piece) )
+        {
+            security_score--;
+        }
+    }
+
+    return 100*pieces_score + 20*center_score + 50*security_score;
 }
 /*----------------------------------------------------------------------------*/
 static int16_t Evaluate_At_Depth(
