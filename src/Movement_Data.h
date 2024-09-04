@@ -6,6 +6,7 @@ typedef struct _T_Movement_Data T_Movement_Data;
 
 #include "Piece.h"
 #include "Position.h"
+#include "T_Board_State.h"
 #include <stdint.h>
 
 

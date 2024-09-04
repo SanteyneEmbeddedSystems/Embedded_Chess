@@ -15,5 +15,6 @@ T_Movement_Data Create_Movement_Data(
     result.captured_piece = NULL;
     result.move_type = NORMAL;
     result.move_index = index;
+    result.board_state = INVALID;
     return result;
 }
