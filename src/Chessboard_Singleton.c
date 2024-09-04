@@ -302,6 +302,7 @@ Board Chessboard = {
             },
             .move_type = NORMAL,
             .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -317,7 +318,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -333,7 +335,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -349,7 +352,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -365,7 +369,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -381,7 +386,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -397,7 +403,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -413,7 +420,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -429,7 +437,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -445,7 +454,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -461,7 +471,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -477,7 +488,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -493,7 +505,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -509,7 +522,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -525,7 +539,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -541,7 +556,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -557,7 +573,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -573,7 +590,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -589,7 +607,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -605,7 +624,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -621,7 +641,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -637,7 +658,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -653,7 +675,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -669,7 +692,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -685,7 +709,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -701,7 +726,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -717,7 +743,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -733,7 +760,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -749,7 +777,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -765,7 +794,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -781,7 +811,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -797,7 +828,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -813,7 +845,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -829,7 +862,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -845,7 +879,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -861,7 +896,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -877,7 +913,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -893,7 +930,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -909,7 +947,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -925,7 +964,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -941,7 +981,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -957,7 +998,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -973,7 +1015,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -989,7 +1032,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1005,7 +1049,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1021,7 +1066,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1037,7 +1083,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1053,7 +1100,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1069,7 +1117,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1085,7 +1134,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1101,7 +1151,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1117,7 +1168,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1133,7 +1185,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1149,7 +1202,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1165,7 +1219,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1181,7 +1236,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1197,7 +1253,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1213,7 +1270,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1229,7 +1287,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1245,7 +1304,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1261,7 +1321,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1277,7 +1338,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1293,7 +1355,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         },
         {
             .moved_piece = NULL,
@@ -1309,7 +1372,8 @@ Board Chessboard = {
                 .file = 0
             },
             .move_type = NORMAL,
-            .move_index = 0
+            .move_index = 0,
+            .board_state = INVALID
         }
 
     }
