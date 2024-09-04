@@ -18,7 +18,12 @@ T_Color Get_Color( const Piece* Me )
 int8_t Get_Score( const Piece* Me )
 {
     return Me->Score;
+}/*----------------------------------------------------------------------------*/
+T_Position Get_Position( const Piece* Me)
+{
+    return Me->Position;
 }
+
 
 /******************************************************************************/
 /** Protected methods implementation**/
@@ -132,18 +137,96 @@ void Move_Piece_Default(
     Piece* Me,
     T_Movement_Data* movement )
 {
-    /* nothing to do */
-    (void)Me; /* unused parameter */
-    (void)movement; /* unused parameter */
+    Me->Position = movement->final_position;
 }
 /*----------------------------------------------------------------------------*/
 void Undo_Piece_Move_Default(
     Piece* Me,
     T_Movement_Data* movement )
 {
-    /* nothing to do */
-    (void)Me; /* unused parameter */
-    (void)movement; /* unused parameter */
+    Me->Position = movement->initial_position;
+}
+/*----------------------------------------------------------------------------*/
+void Get_Possible_Straight_Positions(
+    const Piece* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    T_Rank current_rank = Me->Position.rank;
+    T_File current_file = Me->Position.file;
+    *nb_pos = -1;
+
+    for( T_Rank rank = current_rank+1; rank<=RANK_8; rank++ )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( rank, current_file );
+    }
+    for( T_Rank rank = current_rank-1; rank>=RANK_1; rank-- )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( rank, current_file );
+    }
+    for( T_File file = current_file+1; file<=FILE_H; file++ )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( current_rank, file );
+    }
+    for( T_File file = current_file-1; file>=FILE_A; file-- )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( current_rank, file );
+    }
+}
+/*----------------------------------------------------------------------------*/
+void Get_Possible_Diagonal_Positions(
+    const Piece* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    T_Rank current_rank = Me->Position.rank;
+    T_File current_file = Me->Position.file;
+    *nb_pos = -1;
+    uint8_t square_idx;
+
+    T_Rank rank = current_rank+1;
+    T_File file = current_file+1;
+    for( square_idx =1 ; rank<=RANK_8 && file<=FILE_H; square_idx++ )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( rank, file );
+        rank++;
+        file++;
+    }
+
+    rank = current_rank-1;
+    file = current_file-1;
+    for( square_idx =1 ; rank>=RANK_1 && file>=FILE_A; square_idx++ )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( rank, file );
+        rank--;
+        file--;
+    }
+
+    rank = current_rank+1;
+    file = current_file-1;
+    for( square_idx =1 ; rank<=RANK_8 && file>=FILE_A; square_idx++ )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( rank, file );
+        rank++;
+        file--;
+    }
+
+    rank = current_rank-1;
+    file = current_file+1;
+    for( square_idx =1 ; rank>=RANK_1 && file<=FILE_H; square_idx++ )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position( rank, file );
+        rank--;
+        file++;
+    }
 }
 
 
@@ -178,4 +261,12 @@ void Undo_Piece_Move( Piece* Me, T_Movement_Data* movement )
 char Get_Identifier( const Piece* Me )
 {
     return Me->Virtual_Methods->get_id(Me);
+}
+/*----------------------------------------------------------------------------*/
+void Get_Possible_Positions(
+    const Piece* Me,
+    T_Position* possible_pos,
+    int8_t* nb_pos )
+{
+    Me->Virtual_Methods->get_possible_positions( Me, possible_pos, nb_pos );
 }

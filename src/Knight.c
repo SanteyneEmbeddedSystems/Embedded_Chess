@@ -19,6 +19,11 @@ static bool Can_Knight_Capture_At_Position(
 
 static char Get_Knight_Identifier(const Knight* Me);
 
+static void Get_Possible_Knight_Positions(
+    const Knight* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth Knight_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) )Is_Knight_Movement_Valid,
@@ -26,7 +31,9 @@ Piece_Meth Knight_Meth = {
         Can_Knight_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Piece_Default,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
-    ( char (*) ( const Piece* ) ) Get_Knight_Identifier
+    ( char (*) ( const Piece* ) ) Get_Knight_Identifier,
+    ( void (*) ( const Piece*, T_Position*, int8_t* ) )
+        Get_Possible_Knight_Positions
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Knight_Movement_Valid(
@@ -71,4 +78,67 @@ static char Get_Knight_Identifier( const Knight* Me )
 {
     (void)Me; /* unused parameter */
     return('N');
+}
+/*----------------------------------------------------------------------------*/
+static void Get_Possible_Knight_Positions(
+    const Knight* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    T_Rank current_rank = Me->Super.Position.rank;
+    T_File current_file = Me->Super.Position.file;
+    *nb_pos = -1;
+
+    if( current_rank>=RANK_3 )
+    {
+        if( current_file>=FILE_B )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank-2, current_file-1 );
+        }
+        if( current_file<=FILE_G )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank-2, current_file+1 );
+        }
+    }
+    if( current_rank<=RANK_6 )
+    {
+        if( current_file>=FILE_B )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank+2, current_file-1 );
+        }
+        if( current_file<=FILE_G )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank+2, current_file+1 );
+        }
+    }
+    if( current_file>=FILE_C )
+    {
+        if( current_rank>=RANK_2 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank-1, current_file-2 );
+        }
+        if( current_rank<=RANK_7 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank+1, current_file-2 );
+        }
+    }
+    if( current_file<=FILE_F )
+    {
+        if( current_rank>=RANK_2 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank-1, current_file+2 );
+        }
+        if( current_rank<=RANK_7 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank+1, current_file+2 );
+        }
+    }
 }

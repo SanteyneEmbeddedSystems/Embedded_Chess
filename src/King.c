@@ -9,60 +9,6 @@
 /******************************************************************************/
 /** Public methods implementation**/
 /******************************************************************************/
-T_Position Get_Position( const King* Me)
-{
-    return Me->Current_Position;
-}
-/*----------------------------------------------------------------------------*/
-void Get_Possible_Positions(
-    const King* Me,
-    T_Position* pos,
-    int8_t* nb_pos )
-{
-    T_Rank current_rank = Me->Current_Position.rank;
-    T_File current_file = Me->Current_Position.file;
-    *nb_pos = -1;
-    if( current_file > FILE_A )
-    {
-        if( current_rank < RANK_8 )
-        {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank+1,current_file-1);
-        }
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank,current_file-1);
-        if( current_rank > RANK_1 )
-        {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank-1,current_file-1);
-        }
-    }
-    if( current_file < FILE_H )
-    {
-        if( current_rank < RANK_8 )
-        {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank+1,current_file+1);
-        }
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank,current_file+1);
-        if( current_rank > RANK_1 )
-        {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank-1,current_file+1);
-        }
-    }
-    if( current_rank < RANK_8 )
-    {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank+1,current_file);
-    }
-    if( current_rank > RANK_1 )
-    {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank-1,current_file);
-    }
-}
 
 
 
@@ -72,13 +18,23 @@ void Get_Possible_Positions(
 static bool Is_King_Movement_Valid(
     const King* Me,
     T_Movement_Data* movement );
+
 static bool Can_King_Capture_At_Position(
     const King* Me,
     T_Position king_position,
     T_Position capture_position);
+
 static void Move_King( King* Me, T_Movement_Data* movement );
+
 static void Undo_King_Move( King* Me, T_Movement_Data* movement);
+
 static char Get_King_Identifier(const King* Me);
+
+static void Get_Possible_King_Positions(
+    const King* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth King_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_King_Movement_Valid,
@@ -86,7 +42,9 @@ Piece_Meth King_Meth = {
         Can_King_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_King,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_King_Move,
-    ( char (*) ( const Piece* ) ) Get_King_Identifier
+    ( char (*) ( const Piece* ) ) Get_King_Identifier,
+    ( void (*) ( const Piece*, T_Position*, int8_t* ) )
+        Get_Possible_King_Positions
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_King_Movement_Valid(
@@ -228,7 +186,7 @@ static void Move_King( King* Me, T_Movement_Data* movement )
     {
         Me->First_Move_Index = movement->move_index;
     }
-    Me->Current_Position = movement->final_position;
+    Me->Super.Position = movement->final_position;
 }
 /*----------------------------------------------------------------------------*/
 static void Undo_King_Move( King* Me, T_Movement_Data* movement )
@@ -237,11 +195,61 @@ static void Undo_King_Move( King* Me, T_Movement_Data* movement )
     {
         Me->First_Move_Index=NB_RECORDABLE_MOVEMENTS;
     }
-    Me->Current_Position = movement->initial_position;
+    Me->Super.Position = movement->initial_position;
 }
 /*----------------------------------------------------------------------------*/
 static char Get_King_Identifier(const King* Me)
 {
     (void)Me; /* unused parameter */
     return('K');
+}
+/*----------------------------------------------------------------------------*/
+static void Get_Possible_King_Positions(
+    const King* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    T_Rank current_rank = Me->Super.Position.rank;
+    T_File current_file = Me->Super.Position.file;
+    *nb_pos = -1;
+    if( current_file > FILE_A )
+    {
+        if( current_rank < RANK_8 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank+1,current_file-1);
+        }
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position(current_rank,current_file-1);
+        if( current_rank > RANK_1 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank-1,current_file-1);
+        }
+    }
+    if( current_file < FILE_H )
+    {
+        if( current_rank < RANK_8 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank+1,current_file+1);
+        }
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position(current_rank,current_file+1);
+        if( current_rank > RANK_1 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank-1,current_file+1);
+        }
+    }
+    if( current_rank < RANK_8 )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position(current_rank+1,current_file);
+    }
+    if( current_rank > RANK_1 )
+    {
+        (*nb_pos)++;
+        pos[*nb_pos] = Create_Position(current_rank-1,current_file);
+    }
 }

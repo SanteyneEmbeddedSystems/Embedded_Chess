@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef uint8_t T_Rank;
+typedef int8_t T_Rank;
 #define RANK_1 0
 #define RANK_2 1
 #define RANK_3 2
@@ -14,7 +14,7 @@ typedef uint8_t T_Rank;
 #define RANK_8 7
 
 
-typedef uint8_t T_File;
+typedef int8_t T_File;
 #define FILE_A 0
 #define FILE_B 1
 #define FILE_C 2
@@ -26,8 +26,8 @@ typedef uint8_t T_File;
 
 
 typedef struct {
-    uint8_t rank:3;
-    uint8_t file:3;
+    int8_t rank:4;
+    int8_t file:4;
 } T_Position;
 
 T_Position Create_Position( T_Rank rank, T_File file );

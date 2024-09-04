@@ -15,7 +15,9 @@ Piece_Meth Queen_Meth = {
         Can_Queen_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Piece_Default,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
-    ( char (*) ( const Piece* ) ) Get_Queen_Identifier
+    ( char (*) ( const Piece* ) ) Get_Queen_Identifier,
+    ( void (*) ( const Piece*, T_Position*, int8_t* ) )
+        Get_Possible_Queen_Positions
 };
 /*----------------------------------------------------------------------------*/
 bool Is_Queen_Movement_Valid(
@@ -58,4 +60,21 @@ char Get_Queen_Identifier( const Queen* Me )
     (void)Me; /* unused parameter */
     return('Q');
 }
+/*----------------------------------------------------------------------------*/
+void Get_Possible_Queen_Positions(
+    const Queen* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    Get_Possible_Straight_Positions( (Piece*)Me, pos, nb_pos );
 
+    T_Position diag_pos[13] = {0};
+    int8_t nb_diag_pos = -1;
+    Get_Possible_Diagonal_Positions( (Piece*) Me, diag_pos, &nb_diag_pos );
+
+    for( int8_t idx = 0 ; idx<=nb_diag_pos ; idx++ )
+    {
+        pos[ *nb_pos + 1 + idx ] = diag_pos[idx];
+    }
+    *nb_pos = *nb_pos + nb_diag_pos + 1;
+}

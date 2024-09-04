@@ -38,6 +38,11 @@ static void Undo_Rook_Move( Rook* Me, T_Movement_Data* movement );
 
 static char Get_Rook_Identifier(const Rook* Me);
 
+static void Get_Possible_Rook_Positions(
+    const Rook* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth Rook_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_Rook_Movement_Valid,
@@ -45,7 +50,9 @@ Piece_Meth Rook_Meth = {
         Can_Rook_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Rook,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Rook_Move,
-    ( char (*) ( const Piece* ) )Get_Rook_Identifier
+    ( char (*) ( const Piece* ) )Get_Rook_Identifier,
+    ( void (*) ( const Piece*, T_Position*, int8_t* ) )
+        Get_Possible_Rook_Positions
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Rook_Movement_Valid(
@@ -77,6 +84,7 @@ static void Move_Rook( Rook* Me, T_Movement_Data* movement )
     {
         Me->First_Move_Index = movement->move_index;
     }
+    Me->Super.Position = movement->final_position;
 }
 /*----------------------------------------------------------------------------*/
 static void Undo_Rook_Move( Rook* Me, T_Movement_Data* movement )
@@ -85,10 +93,19 @@ static void Undo_Rook_Move( Rook* Me, T_Movement_Data* movement )
     {
         Me->First_Move_Index = NB_RECORDABLE_MOVEMENTS;
     }
+    Me->Super.Position = movement->initial_position;
 }
 /*----------------------------------------------------------------------------*/
 static char Get_Rook_Identifier( const Rook* Me )
 {
     (void)Me; /* unused parameter */
     return('R');
+}
+/*----------------------------------------------------------------------------*/
+static void Get_Possible_Rook_Positions(
+    const Rook* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    Get_Possible_Straight_Positions( (Piece*)Me, pos, nb_pos );
 }

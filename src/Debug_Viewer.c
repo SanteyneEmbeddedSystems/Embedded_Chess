@@ -109,22 +109,22 @@ void Display_Board( void )
     Draw_Line_Id();
     printf("\n");
     T_Color square_color = WHITE;
-    for( int rank = 7 ; rank>=0 ; rank-- )
+    for( T_Rank rank = RANK_8 ; rank>=RANK_1 ; rank-- )
     {
         /* Get the color of the first square on the rank (file a) */
-        if(rank%2)
+        if( rank==RANK_2 || rank==RANK_4 || rank==RANK_6 || rank==RANK_8 )
         {
-            square_color = BLACK;
+            square_color = WHITE;
         }
         else
         {
-            square_color = WHITE;
+            square_color = BLACK;
         }
 
         /* Get Pieces data of the current rank */
         T_Color rank_piece_color[8] = {WHITE};
         char rank_piece_id[8] = {0};
-        for( int file = 0 ; file<=7 ; file++ )
+        for( T_File file = FILE_A ; file<=FILE_H ; file++ )
         {
             Piece* current_piece = NULL;
             current_piece = Get_Piece( rank, file );
@@ -148,7 +148,7 @@ void Display_Board( void )
                 printf("    ");
             }
 
-            for( int file = 0 ; file<=7 ; file++ )
+            for( T_File file=FILE_A ; file<=FILE_H ; file++ )
             {
                 uint16_t line_pattern = 0;
                 switch( rank_piece_id[file] )

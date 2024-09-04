@@ -19,13 +19,15 @@ typedef struct {
     void (*move)( Piece*, T_Movement_Data* );
     void (*undo_move)( Piece*, T_Movement_Data* );
     char (*get_id)(const Piece*);
+    void (*get_possible_positions)( const Piece*, T_Position*, int8_t* );
 } Piece_Meth;
 
 
 struct _Piece {
     const Piece_Meth* Virtual_Methods;
-    const T_Color Color;
-    int8_t Score;
+    T_Position Position;
+    uint8_t Color:1;
+    uint8_t Score:7;
 };
 
 
@@ -34,6 +36,8 @@ struct _Piece {
 /******************************************************************************/
 T_Color Get_Color( const Piece* Me );
 int8_t Get_Score( const Piece* Me );
+T_Position Get_Position( const Piece* Me );
+
 
 /******************************************************************************/
 /** Virtual methods **/
@@ -56,5 +60,13 @@ void Move_Piece( Piece* Me, T_Movement_Data* movement );
 void Undo_Piece_Move( Piece* Me, T_Movement_Data* movement );
 
 char Get_Identifier( const Piece* Me );
+
+/* Returns the list of positions that can be taken by the Piece totally ignoring
+the other Pieces of the board.
+This methods shall be used by Minimax to increase algo speed. */
+void Get_Possible_Positions(
+    const Piece* Me,
+    T_Position* possible_pos,
+    int8_t* nb_pos );
 
 #endif

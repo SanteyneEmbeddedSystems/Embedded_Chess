@@ -6,6 +6,7 @@
 #include "stdbool.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 
 static bool Treat_Command(
@@ -77,13 +78,17 @@ void Play( void )
         else if( command[0]=='p' && command[1]=='l'
                && command[2]=='a' && command[3]=='y' )
         {
+            time_t begin = time( NULL );
             Find_Best_Move( 4, &start_position, &end_position );
+            time_t end = time( NULL);
+            unsigned long secondes = (unsigned long) difftime( end, begin );
             Move_Piece_On_Board( start_position, end_position );
-            printf("IA plays : %c%u-%c%u\n",
+            printf("IA plays : %c%u-%c%u in %ld s\n",
                    start_position.file+97,
                    start_position.rank+1,
                    end_position.file+97,
-                   end_position.rank+1);
+                   end_position.rank+1,
+                   secondes);
         }
         else
         {

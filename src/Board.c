@@ -306,15 +306,18 @@ void Find_Best_Move(
     {
         for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
         {
-            T_Position i_position = Create_Position( i_rank, i_file );
-
-            for( T_Rank f_rank = RANK_1 ; f_rank<= RANK_8 ; f_rank++ )
+            Piece* moving_piece = Get_Piece( i_rank, i_file );
+            if( NULL!=moving_piece && current_player==Get_Color(moving_piece) )
             {
-                for( T_File f_file = FILE_A ; f_file <= FILE_H ; f_file++ )
+                T_Position i_position = Create_Position( i_rank, i_file );
+                T_Position possible_pos[27] = {0}; /* max is for Queen */
+                int8_t nb_pos;
+                Get_Possible_Positions( moving_piece, possible_pos, &nb_pos );
+
+                for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
                 {
-                    T_Position f_position = Create_Position( f_rank, f_file );
                     T_Board_State move_state;
-                    move_state = Move_Piece_On_Board( i_position, f_position );
+                    move_state = Move_Piece_On_Board( i_position, possible_pos[pos_idx] );
                     if( INVALID!=move_state )
                     {
                         int16_t move_val = Evaluate_At_Depth(
@@ -337,7 +340,7 @@ void Find_Best_Move(
                         if( true==move_is_better )
                         {
                             *best_initial_position = i_position;
-                            *best_final_position = f_position;
+                            *best_final_position = possible_pos[pos_idx];
                             best_val = move_val;
                         }
                     }
@@ -527,7 +530,7 @@ static bool Is_Stalemated( T_Color next_player )
 /*----------------------------------------------------------------------------*/
 static T_Position Get_King_Position( T_Color king_color )
 {
-    return Get_Position(Get_King(king_color));
+    return Get_Position((Piece*)Get_King(king_color));
 }
 /*----------------------------------------------------------------------------*/
 static const King* Get_King( T_Color king_color )
@@ -643,7 +646,7 @@ static bool Is_King_In_Check_After_Move(
 {
     T_Position possible_king_pos[8];
     int8_t nb_pos;
-    Get_Possible_Positions( player_king, possible_king_pos, &nb_pos );
+    Get_Possible_Positions( (Piece*)player_king, possible_king_pos, &nb_pos );
     for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
     {
         T_Position captured_position = possible_king_pos[pos_idx];
@@ -769,8 +772,8 @@ static void Get_Interception_Positions(
     }
     else
     {
-        int8_t diff_rank = (int8_t)king_rank-(int8_t)piece_rank;
-        int8_t diff_file = (int8_t)king_file-(int8_t)piece_file;
+        int8_t diff_rank = king_rank - piece_rank;
+        int8_t diff_file = king_file - piece_file;
 
         if( diff_rank==diff_file || diff_rank==-diff_file )
         {
@@ -982,7 +985,7 @@ static int16_t Evaluate( void )
     T_Position possible_king_pos[8];
     int8_t nb_pos;
     const King* player_king = Get_King(WHITE);
-    Get_Possible_Positions( player_king, possible_king_pos, &nb_pos );
+    Get_Possible_Positions( (Piece*)player_king, possible_king_pos, &nb_pos );
     for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
     {
         Piece* protecting_piece;
@@ -993,7 +996,7 @@ static int16_t Evaluate( void )
         }
     }
     player_king = Get_King(BLACK);
-    Get_Possible_Positions( player_king, possible_king_pos, &nb_pos );
+    Get_Possible_Positions( (Piece*)player_king, possible_king_pos, &nb_pos );
     for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
     {
         Piece* protecting_piece;
@@ -1033,15 +1036,19 @@ static int16_t Evaluate_At_Depth(
         {
             for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
             {
-                T_Position i_pos = Create_Position( i_rank, i_file );
-
-                for( T_Rank f_rank = RANK_1 ; f_rank<= RANK_8 ; f_rank++ )
+                Piece* moving_piece = Get_Piece( i_rank, i_file );
+                if( NULL!=moving_piece && WHITE==Get_Color(moving_piece) )
                 {
-                    for( T_File f_file = FILE_A ; f_file <= FILE_H ; f_file++ )
+                    T_Position i_pos = Create_Position( i_rank, i_file );
+
+                    T_Position possible_pos[27] = {0}; /* max is for Queen */
+                    int8_t nb_pos;
+                    Get_Possible_Positions( moving_piece, possible_pos, &nb_pos );
+
+                    for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
                     {
-                        T_Position f_pos = Create_Position( f_rank, f_file );
                         T_Board_State move_state;
-                        move_state = Move_Piece_On_Board( i_pos, f_pos );
+                        move_state = Move_Piece_On_Board( i_pos, possible_pos[pos_idx] );
                         if( INVALID!=move_state )
                         {
                             move_val = Evaluate_At_Depth(
@@ -1051,13 +1058,12 @@ static int16_t Evaluate_At_Depth(
                                 beta);
                             Undo_Last_Move();
                             evaluation = MAX( evaluation, move_val );
-                            if( evaluation >= beta )
+                            if( evaluation > beta )
                             {
                                 return evaluation;
                             }
                             alpha = MAX( alpha, evaluation );
                         }
-
                     }
                 }
             }
@@ -1071,15 +1077,19 @@ static int16_t Evaluate_At_Depth(
         {
             for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
             {
-                T_Position i_pos = Create_Position( i_rank, i_file );
-
-                for( T_Rank f_rank = RANK_1 ; f_rank<= RANK_8 ; f_rank++ )
+                Piece* moving_piece = Get_Piece( i_rank, i_file );
+                if( NULL!=moving_piece && BLACK==Get_Color(moving_piece) )
                 {
-                    for( T_File f_file = FILE_A ; f_file <= FILE_H ; f_file++ )
+                    T_Position i_pos = Create_Position( i_rank, i_file );
+
+                    T_Position possible_pos[27] = {0}; /* max is for Queen */
+                    int8_t nb_pos;
+                    Get_Possible_Positions( moving_piece, possible_pos, &nb_pos );
+
+                    for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
                     {
-                        T_Position f_pos = Create_Position( f_rank, f_file );
                         T_Board_State move_state;
-                        move_state = Move_Piece_On_Board( i_pos, f_pos );
+                        move_state = Move_Piece_On_Board( i_pos, possible_pos[pos_idx] );
                         if( INVALID!=move_state )
                         {
                             move_val = Evaluate_At_Depth(
@@ -1089,13 +1099,12 @@ static int16_t Evaluate_At_Depth(
                                 beta);
                             Undo_Last_Move();
                             evaluation = MIN( evaluation, move_val );
-                            if( alpha >= evaluation )
+                            if( alpha > evaluation )
                             {
                                 return evaluation;
                             }
                             beta = MIN( beta, evaluation );
                         }
-
                     }
                 }
             }

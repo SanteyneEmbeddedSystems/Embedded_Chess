@@ -18,4 +18,9 @@ bool Can_Queen_Capture_At_Position(
 
 char Get_Queen_Identifier(const Queen* Me);
 
+void Get_Possible_Queen_Positions(
+    const Queen* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
 #endif

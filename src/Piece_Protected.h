@@ -34,4 +34,14 @@ void Undo_Piece_Move_Default(
     Piece* Me,
     T_Movement_Data* movement );
 
+void Get_Possible_Straight_Positions(
+    const Piece* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
+void Get_Possible_Diagonal_Positions(
+    const Piece* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
 #endif

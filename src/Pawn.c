@@ -36,6 +36,10 @@ static bool Can_Pawn_Capture_At_Position(
 static void Move_Pawn( Pawn* Me, T_Movement_Data* movement );
 static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement);
 static char Get_Pawn_Identifier(const Pawn* Me);
+static void Get_Possible_Pawn_Positions(
+    const Pawn* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
 
 /*----------------------------------------------------------------------------*/
 Piece_Meth Pawn_Meth = {
@@ -44,7 +48,9 @@ Piece_Meth Pawn_Meth = {
         Can_Pawn_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Pawn,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
-    ( char (*) ( const Piece* ) ) Get_Pawn_Identifier
+    ( char (*) ( const Piece* ) ) Get_Pawn_Identifier,
+    ( void (*) ( const Piece*, T_Position*, int8_t* ) )
+        Get_Possible_Pawn_Positions
 };
 /*----------------------------------------------------------------------------*/
 Piece_Meth Promoted_Pawn_Meth = {
@@ -53,7 +59,9 @@ Piece_Meth Promoted_Pawn_Meth = {
         Can_Queen_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Piece_Default,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Promoted_Pawn_Move,
-    ( char (*) ( const Piece* ) ) Get_Queen_Identifier
+    ( char (*) ( const Piece* ) ) Get_Queen_Identifier,
+    ( void (*) ( const Piece*, T_Position*, int8_t* ) )
+        Get_Possible_Queen_Positions
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Pawn_Movement_Valid(
@@ -189,6 +197,7 @@ static void Move_Pawn( Pawn* Me, T_Movement_Data* movement )
             Me->Super.Score = -9;
         }
     }
+    Me->Super.Position = movement->final_position;
 }
 /*----------------------------------------------------------------------------*/
 static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement)
@@ -205,12 +214,71 @@ static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement)
             Me->Super.Score = -1;
         }
     }
+    Me->Super.Position = movement->initial_position;
 }
 /*----------------------------------------------------------------------------*/
 static char Get_Pawn_Identifier(const Pawn* Me)
 {
     (void)Me; /* unused parameter */
     return('P');
+}
+/*----------------------------------------------------------------------------*/
+static void Get_Possible_Pawn_Positions(
+    const Pawn* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    T_Color pawn_color = Get_Color((Piece*)Me);
+    T_Rank current_rank = Me->Super.Position.rank;
+    T_File current_file = Me->Super.Position.file;
+    *nb_pos = -1;
+
+    if( WHITE==pawn_color )
+    {
+        if( RANK_2==current_rank )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank+2,current_file);
+        }
+        if( current_rank<=RANK_7 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank+1,current_file);
+            if(current_file<=FILE_G)
+            {
+                (*nb_pos)++;
+                pos[*nb_pos] = Create_Position(current_rank+1,current_file+1);
+            }
+            if(current_file>=FILE_B)
+            {
+                (*nb_pos)++;
+                pos[*nb_pos] = Create_Position(current_rank+1,current_file-1);
+            }
+        }
+    }
+    else
+    {
+         if( RANK_7==current_rank )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank-2,current_file);
+        }
+        if( current_rank>=RANK_2 )
+        {
+            (*nb_pos)++;
+            pos[*nb_pos] = Create_Position(current_rank-1,current_file);
+            if(current_file<=FILE_G)
+            {
+                (*nb_pos)++;
+                pos[*nb_pos] = Create_Position(current_rank-1,current_file+1);
+            }
+            if(current_file>=FILE_B)
+            {
+                (*nb_pos)++;
+                pos[*nb_pos] = Create_Position(current_rank-1,current_file-1);
+            }
+        }
+    }
 }
 
 
