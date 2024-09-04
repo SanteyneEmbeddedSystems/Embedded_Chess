@@ -208,9 +208,6 @@ T_Board_State Move_Piece_On_Board(
     }
     else
     {
-        /* Validate the move */
-        Move_Piece( moving_piece, &movement  );
-
         /* Store the board status */
         movement.board_state = move_status;
 
