@@ -79,6 +79,11 @@ void Play( void )
         {
             Find_Best_Move( 4, &start_position, &end_position );
             Move_Piece_On_Board( start_position, end_position );
+            printf("IA plays : %c%u-%c%u\n",
+                   start_position.file+97,
+                   start_position.rank+1,
+                   end_position.file+97,
+                   end_position.rank+1);
         }
         else
         {
