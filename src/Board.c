@@ -481,7 +481,7 @@ static bool Is_Stalemated( T_Color next_player )
                     for( T_File end_file=FILE_A ; end_file<=FILE_H ; end_file++)
                     {
                         /* Except for start position */
-                        if( start_file!=end_file && start_rank!=end_rank )
+                        if( start_file!=end_file || start_rank!=end_rank )
                         {
                             /* Verify if the validity of the movement has to be
                             checked : end position is empty or occupied by
