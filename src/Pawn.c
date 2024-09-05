@@ -40,6 +40,7 @@ static void Get_Possible_Pawn_Positions(
     const Pawn* Me,
     T_Position* pos,
     int8_t* nb_pos );
+static int8_t Get_Pawn_Score( const Pawn* Me );
 
 /*----------------------------------------------------------------------------*/
 Piece_Meth Pawn_Meth = {
@@ -50,7 +51,8 @@ Piece_Meth Pawn_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
     ( char (*) ( const Piece* ) ) Get_Pawn_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_Pawn_Positions
+        Get_Possible_Pawn_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_Pawn_Score
 };
 /*----------------------------------------------------------------------------*/
 Piece_Meth Promoted_Pawn_Meth = {
@@ -61,7 +63,8 @@ Piece_Meth Promoted_Pawn_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Promoted_Pawn_Move,
     ( char (*) ( const Piece* ) ) Get_Queen_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_Queen_Positions
+        Get_Possible_Queen_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_Queen_Score
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Pawn_Movement_Valid(
@@ -188,14 +191,6 @@ static void Move_Pawn( Pawn* Me, T_Movement_Data* movement )
     if( PROMOTION==movement->move_type )
     {
         Me->Super.Virtual_Methods = &Promoted_Pawn_Meth;
-        if( WHITE==Get_Color( (Piece*)Me ) )
-        {
-            Me->Super.Score = 9;
-        }
-        else
-        {
-            Me->Super.Score = -9;
-        }
     }
     Me->Super.Position = movement->final_position;
 }
@@ -205,14 +200,6 @@ static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement)
     if( PROMOTION==movement->move_type )
     {
         Me->Super.Virtual_Methods = &Pawn_Meth;
-        if( WHITE==Get_Color( (Piece*)Me ) )
-        {
-            Me->Super.Score = 1;
-        }
-        else
-        {
-            Me->Super.Score = -1;
-        }
     }
     Me->Super.Position = movement->initial_position;
 }
@@ -232,53 +219,116 @@ static void Get_Possible_Pawn_Positions(
     T_Rank current_rank = Me->Super.Position.rank;
     T_File current_file = Me->Super.Position.file;
     *nb_pos = -1;
-
+    Piece* captured_piece = NULL;
     if( WHITE==pawn_color )
     {
+        /* 2 square move */
         if( RANK_2==current_rank )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank+2,current_file);
+            if( NULL==Get_Piece(RANK_3,current_file) )
+            {
+                Add_Position_If_Free((Piece*)Me,nb_pos,pos,RANK_4,current_file);
+            }
         }
+
         if( current_rank<=RANK_7 )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank+1,current_file);
+            /* 1 square */
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+1, current_file );
+
+            /* Capture */
             if(current_file<=FILE_G)
             {
-                (*nb_pos)++;
-                pos[*nb_pos] = Create_Position(current_rank+1,current_file+1);
+                captured_piece = Get_Piece(current_rank+1,current_file+1);
+                if( NULL!=captured_piece
+                    && pawn_color!=Get_Color(captured_piece) )
+                {
+                    Add_Position( nb_pos, pos, current_rank+1, current_file+1 );
+                }
             }
             if(current_file>=FILE_B)
             {
-                (*nb_pos)++;
-                pos[*nb_pos] = Create_Position(current_rank+1,current_file-1);
+                captured_piece = Get_Piece(current_rank+1,current_file-1);
+                if( NULL!=captured_piece
+                    && pawn_color!=Get_Color(captured_piece) )
+                {
+                    Add_Position( nb_pos, pos, current_rank+1, current_file-1 );
+                }
             }
         }
+
+        /* En passant */
+        if( current_rank==RANK_5 )
+        {
+            T_Movement_Data* last_move = Get_Last_Move();
+            if( last_move->move_type==TWO_SQUARES )
+            {
+                T_File last_move_file = Get_File(last_move->final_position);
+                if( current_file==(last_move_file+1)
+                        || current_file==(last_move_file-1) )
+                {
+                    Add_Position( nb_pos, pos, RANK_6, last_move_file );
+                }
+            }
+        }
+
     }
     else
     {
          if( RANK_7==current_rank )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank-2,current_file);
+            if( NULL==Get_Piece(RANK_6,current_file) )
+            {
+                Add_Position_If_Free((Piece*)Me,nb_pos,pos,RANK_5,current_file);
+            }
         }
         if( current_rank>=RANK_2 )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank-1,current_file);
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-1, current_file );
+
             if(current_file<=FILE_G)
             {
-                (*nb_pos)++;
-                pos[*nb_pos] = Create_Position(current_rank-1,current_file+1);
+                captured_piece = Get_Piece(current_rank-1,current_file+1);
+                if( NULL!=captured_piece
+                    && pawn_color!=Get_Color(captured_piece) )
+                {
+                    Add_Position( nb_pos, pos, current_rank-1, current_file+1 );
+                }
             }
             if(current_file>=FILE_B)
             {
-                (*nb_pos)++;
-                pos[*nb_pos] = Create_Position(current_rank-1,current_file-1);
+                captured_piece = Get_Piece(current_rank-1,current_file-1);
+                if( NULL!=captured_piece
+                    && pawn_color!=Get_Color(captured_piece) )
+                {
+                    Add_Position( nb_pos, pos, current_rank-1, current_file-1 );
+                }
+            }
+        }
+
+        /* En passant */
+        if( current_rank==RANK_4 )
+        {
+            T_Movement_Data* last_move = Get_Last_Move();
+            if( last_move->move_type==TWO_SQUARES )
+            {
+                T_File last_move_file = Get_File(last_move->final_position);
+                if( current_file==(last_move_file+1)
+                        || current_file==(last_move_file-1) )
+                {
+                    Add_Position( nb_pos, pos, RANK_3, last_move_file );
+                }
             }
         }
     }
+}
+/*----------------------------------------------------------------------------*/
+static int8_t Get_Pawn_Score( const Pawn* Me )
+{
+    (void)Me; /* unused parameter */
+    return 1;
 }
 
 

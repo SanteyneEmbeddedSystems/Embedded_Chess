@@ -5,11 +5,69 @@
 #include "Piece_Protected.h" /* inheritance */
 #include "Chessboard_King.h" /* association to Chessboard */
 
+/******************************************************************************/
+/** Private methods definition **/
+/******************************************************************************/
+typedef uint8_t E_CASTLING_ALLOWED;
+#define NOT_ALLOWED 0
+#define KING_SIDE_ALLOWED 1
+#define QUEEN_SIDE_ALLOWED 2
+#define BOTH_SIDE_ALLOWED 3
+static E_CASTLING_ALLOWED Is_Castling_Allowed( const King* Me );
+
 
 /******************************************************************************/
-/** Public methods implementation**/
+/** Public methods implementation **/
 /******************************************************************************/
-
+void Get_Possible_King_Positions_In_Check(
+    const King* Me,
+    T_Position* pos,
+    int8_t* nb_pos )
+{
+    T_Rank current_rank = Me->Super.Position.rank;
+    T_File current_file = Me->Super.Position.file;
+    *nb_pos = -1;
+    if( current_file > FILE_A )
+    {
+        if( current_rank < RANK_8 )
+        {
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+1, current_file-1 );
+        }
+        Add_Position_If_Free(
+            (Piece*)Me, nb_pos, pos, current_rank, current_file-1 );
+        if( current_rank > RANK_1 )
+        {
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-1, current_file-1 );
+        }
+    }
+    if( current_file < FILE_H )
+    {
+        if( current_rank < RANK_8 )
+        {
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+1, current_file+1 );
+        }
+        Add_Position_If_Free(
+            (Piece*)Me, nb_pos, pos, current_rank, current_file+1 );
+        if( current_rank > RANK_1 )
+        {
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-1, current_file+1 );
+        }
+    }
+    if( current_rank < RANK_8 )
+    {
+        Add_Position_If_Free(
+            (Piece*)Me, nb_pos, pos, current_rank+1, current_file );
+    }
+    if( current_rank > RANK_1 )
+    {
+        Add_Position_If_Free(
+            (Piece*)Me, nb_pos, pos, current_rank-1, current_file );
+    }
+}
 
 
 /******************************************************************************/
@@ -35,6 +93,8 @@ static void Get_Possible_King_Positions(
     T_Position* pos,
     int8_t* nb_pos );
 
+static int8_t Get_King_Score( const King* Me );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth King_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_King_Movement_Valid,
@@ -44,7 +104,8 @@ Piece_Meth King_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_King_Move,
     ( char (*) ( const Piece* ) ) Get_King_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_King_Positions
+        Get_Possible_King_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_King_Score
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_King_Movement_Valid(
@@ -65,73 +126,45 @@ static bool Is_King_Movement_Valid(
 
     /* Treat castling. */
     T_Color king_color = Get_Color((Piece*)Me);
-    /* Verify that king is not check and has not already moved. */
-    /* Verify final rank */
-    T_Board_State chessboard_state = Get_State();
-    T_Rank final_rank = Get_Rank(final_pos);
-    if( NB_RECORDABLE_MOVEMENTS==Me->First_Move_Index
-       && ( ( king_color==WHITE && chessboard_state!=WHITE_CHECK )
-           || ( king_color==BLACK && chessboard_state!=BLACK_CHECK ) )
-       && ( ( king_color==WHITE && final_rank==RANK_1 )
-           || ( king_color==BLACK && final_rank==RANK_8 ) )
-      )
-    { /* King is on e file. */
-        T_Rank king_rank = RANK_1;
-        T_Color opponent_color = BLACK;
-        if( BLACK==king_color )
+    T_Rank required_king_rank = RANK_1;
+    if( BLACK==king_color )
+    {
+        required_king_rank = RANK_8;
+    }
+    if( Get_Rank(initial_pos)==required_king_rank
+       && Get_Rank(final_pos)==required_king_rank )
+    {
+        if( Get_File(initial_pos)==FILE_E )
         {
-            king_rank = RANK_8;
-            opponent_color = WHITE;
-        }
-        T_Position pass_through_position;
-        T_File final_file = Get_File(final_pos);
-        if( FILE_G==final_file )
-        { /* Castling with H rook. */
-            /* Verify that H rook has not moved. */
-            if ( false==Has_Rook_Already_Moved( king_color, FILE_H ) )
+            bool king_side_requested = false;
+            bool queen_side_requested = false;
+            if( Get_File(final_pos)==FILE_G )
             {
-                /* Check there are no piece between the king and the rook.*/
-                if( Get_Piece( king_rank, FILE_F )==NULL &&
-                    Get_Piece( king_rank, FILE_G )==NULL )
-                {
-                    /* Verify the king does not pass through or finish on a
-                    square attacked by an enemy piece */
-                    pass_through_position = Create_Position(king_rank,FILE_F);
-                    if( Is_Position_Capturable(
-                            pass_through_position, opponent_color)==false
-                       && Is_Position_Capturable(
-                            final_pos, opponent_color)==false )
-                    {
-                        result = true;
-                        movement->move_type = H_ROOK_CASTLING;
-                    }
-                }
+                king_side_requested = true;
             }
-        }
-        else if( FILE_C==final_file )
-        { /* Castling with A rook. */
-            if ( false==Has_Rook_Already_Moved( king_color, FILE_A ) )
+            if( Get_File(initial_pos)==FILE_E && Get_File(final_pos)==FILE_C )
             {
-                /* Check there are no piece between the king and the rook.*/
-                if( Get_Piece( king_rank, FILE_D )==NULL &&
-                    Get_Piece( king_rank, FILE_C )==NULL )
+                queen_side_requested = true;
+            }
+            if( true==king_side_requested || true==queen_side_requested )
+            {
+                E_CASTLING_ALLOWED castling_allowed = Is_Castling_Allowed(Me);
+                if( true==king_side_requested &&
+                    ( castling_allowed==KING_SIDE_ALLOWED
+                        || castling_allowed==BOTH_SIDE_ALLOWED ) )
                 {
-                    /* Verify the king does not pass through or finish on a
-                    square attacked by an enemy piece */
-                    pass_through_position = Create_Position(king_rank,FILE_D);
-                    if( Is_Position_Capturable(
-                            pass_through_position, opponent_color)==false
-                       && Is_Position_Capturable(
-                            final_pos, opponent_color)==false )
-                    {
-                        result = true;
+                    result = true;
+                    movement->move_type = H_ROOK_CASTLING;
+                }
+                else if( castling_allowed==QUEEN_SIDE_ALLOWED
+                            || castling_allowed==BOTH_SIDE_ALLOWED )
+                {
+                    result = true;
                         movement->move_type = A_ROOK_CASTLING;
-                    }
                 }
             }
         }
     }
-
     return result;
 }
 /*----------------------------------------------------------------------------*/
@@ -209,47 +242,106 @@ static void Get_Possible_King_Positions(
     T_Position* pos,
     int8_t* nb_pos )
 {
-    T_Rank current_rank = Me->Super.Position.rank;
-    T_File current_file = Me->Super.Position.file;
-    *nb_pos = -1;
-    if( current_file > FILE_A )
+    Get_Possible_King_Positions_In_Check( Me, pos, nb_pos );
+    switch( Is_Castling_Allowed(Me) )
     {
-        if( current_rank < RANK_8 )
+        case NOT_ALLOWED:
+            break;
+        case KING_SIDE_ALLOWED:
+            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_G );
+            break;
+        case QUEEN_SIDE_ALLOWED:
+            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_C );
+            break;
+        case BOTH_SIDE_ALLOWED:
+            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_G );
+            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_C );
+            break;
+    }
+}
+/*----------------------------------------------------------------------------*/
+static int8_t Get_King_Score( const King* Me )
+{
+    (void)Me; /* unused parameter */
+    return 0;
+}
+
+
+/******************************************************************************/
+/** Private methods implementation**/
+/******************************************************************************/
+static E_CASTLING_ALLOWED Is_Castling_Allowed( const King* Me )
+{
+    E_CASTLING_ALLOWED result = NOT_ALLOWED;
+
+    T_Color king_color = Get_Color((Piece*)Me);
+    /* Verify that king is not check and has not already moved. */
+    /* Verify final rank */
+    T_Board_State chessboard_state = Get_State();
+    if( NB_RECORDABLE_MOVEMENTS==Me->First_Move_Index
+       && ( ( king_color==WHITE && chessboard_state!=WHITE_CHECK )
+           || ( king_color==BLACK && chessboard_state!=BLACK_CHECK ) )
+      )
+    {
+        T_Rank king_rank = RANK_1;
+        T_Color opponent_color = BLACK;
+        T_Position final_pos;
+        if( BLACK==king_color )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank+1,current_file-1);
+            king_rank = RANK_8;
+            opponent_color = WHITE;
         }
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank,current_file-1);
-        if( current_rank > RANK_1 )
+        T_Position pass_through_position;
+
+        /* Test castling with H rook (King side). */
+        /* Verify that H rook has not moved. */
+        if ( false==Has_Rook_Already_Moved( king_color, FILE_H ) )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank-1,current_file-1);
+            /* Check there are no piece between the king and the rook.*/
+            if( Get_Piece( king_rank, FILE_F )==NULL &&
+                Get_Piece( king_rank, FILE_G )==NULL )
+            {
+                /* Verify the king does not pass through or finish on a
+                square attacked by an enemy piece */
+                pass_through_position = Create_Position(king_rank,FILE_F);
+                final_pos = Create_Position(king_rank,FILE_G);
+                if( Is_Position_Capturable(
+                        pass_through_position, opponent_color)==false
+                   && Is_Position_Capturable(
+                        final_pos, opponent_color)==false )
+                {
+                    result = KING_SIDE_ALLOWED;
+                }
+            }
+        }
+
+        /* Castling with A rook (Queen side). */
+        if ( false==Has_Rook_Already_Moved( king_color, FILE_A ) )
+        {
+            /* Check there are no piece between the king and the rook.*/
+            if( Get_Piece( king_rank, FILE_D )==NULL &&
+                Get_Piece( king_rank, FILE_C )==NULL )
+            {
+                /* Verify the king does not pass through or finish on a
+                square attacked by an enemy piece */
+                pass_through_position = Create_Position(king_rank,FILE_D);
+                final_pos = Create_Position(king_rank,FILE_C);
+                if( Is_Position_Capturable(
+                        pass_through_position, opponent_color)==false
+                   && Is_Position_Capturable(
+                        final_pos, opponent_color)==false )
+                {
+                    if( result==KING_SIDE_ALLOWED )
+                    {
+                        result = BOTH_SIDE_ALLOWED;
+                    }
+                    else
+                    {
+                        result = QUEEN_SIDE_ALLOWED;
+                    }
+                }
+            }
         }
     }
-    if( current_file < FILE_H )
-    {
-        if( current_rank < RANK_8 )
-        {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank+1,current_file+1);
-        }
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank,current_file+1);
-        if( current_rank > RANK_1 )
-        {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position(current_rank-1,current_file+1);
-        }
-    }
-    if( current_rank < RANK_8 )
-    {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank+1,current_file);
-    }
-    if( current_rank > RANK_1 )
-    {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position(current_rank-1,current_file);
-    }
+    return result;
 }

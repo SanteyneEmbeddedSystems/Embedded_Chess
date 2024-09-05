@@ -23,4 +23,6 @@ void Get_Possible_Queen_Positions(
     T_Position* pos,
     int8_t* nb_pos );
 
+int8_t Get_Queen_Score( const Queen* Me );
+
 #endif

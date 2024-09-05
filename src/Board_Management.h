@@ -23,4 +23,6 @@ T_Color Get_Current_Player(void);
 
 Piece* Get_Piece( T_Rank rank, T_File file );
 
+uint8_t Get_Nb_Movements( void );
+
 #endif

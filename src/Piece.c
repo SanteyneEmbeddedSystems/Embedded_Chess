@@ -15,10 +15,6 @@ T_Color Get_Color( const Piece* Me )
     return Me->Color;
 }
 /*----------------------------------------------------------------------------*/
-int8_t Get_Score( const Piece* Me )
-{
-    return Me->Score;
-}/*----------------------------------------------------------------------------*/
 T_Position Get_Position( const Piece* Me)
 {
     return Me->Position;
@@ -147,6 +143,27 @@ void Undo_Piece_Move_Default(
     Me->Position = movement->initial_position;
 }
 /*----------------------------------------------------------------------------*/
+void Add_Position( int8_t* nb_pos, T_Position* pos, T_Rank rank, T_File file )
+{
+    (*nb_pos)++;
+    pos[*nb_pos] = Create_Position( rank, file );
+}
+/*----------------------------------------------------------------------------*/
+void Add_Position_If_Free(
+    const Piece* Me,
+    int8_t* nb_pos,
+    T_Position* pos,
+    T_Rank rank,
+    T_File file )
+{
+    Piece* captured_piece = Get_Piece( rank, file );
+    if( NULL==captured_piece
+       || Get_Color(Me)!=Get_Color(captured_piece) )
+    {
+        Add_Position( nb_pos, pos, rank, file );
+    }
+}
+/*----------------------------------------------------------------------------*/
 void Get_Possible_Straight_Positions(
     const Piece* Me,
     T_Position* pos,
@@ -158,23 +175,83 @@ void Get_Possible_Straight_Positions(
 
     for( T_Rank rank = current_rank+1; rank<=RANK_8; rank++ )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( rank, current_file );
+        Piece* captured_piece = Get_Piece( rank, current_file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, rank, current_file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( rank, current_file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, rank, current_file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( rank, current_file );*/
+        }
     }
     for( T_Rank rank = current_rank-1; rank>=RANK_1; rank-- )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( rank, current_file );
+        Piece* captured_piece = Get_Piece( rank, current_file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, rank, current_file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( rank, current_file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, rank, current_file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( rank, current_file );*/
+        }
     }
     for( T_File file = current_file+1; file<=FILE_H; file++ )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( current_rank, file );
+        Piece* captured_piece = Get_Piece( current_rank, file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, current_rank, file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( current_rank, file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, current_rank, file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank, file );*/
+        }
     }
     for( T_File file = current_file-1; file>=FILE_A; file-- )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( current_rank, file );
+        Piece* captured_piece = Get_Piece( current_rank, file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, current_rank, file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( current_rank, file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, current_rank, file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( current_rank, file );*/
+        }
     }
 }
 /*----------------------------------------------------------------------------*/
@@ -192,8 +269,23 @@ void Get_Possible_Diagonal_Positions(
     T_File file = current_file+1;
     for( square_idx =1 ; rank<=RANK_8 && file<=FILE_H; square_idx++ )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( rank, file );
+        Piece* captured_piece = Get_Piece( rank, file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, rank, file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( rank, file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, rank, file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( rank, file );*/
+        }
         rank++;
         file++;
     }
@@ -202,8 +294,23 @@ void Get_Possible_Diagonal_Positions(
     file = current_file-1;
     for( square_idx =1 ; rank>=RANK_1 && file>=FILE_A; square_idx++ )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( rank, file );
+        Piece* captured_piece = Get_Piece( rank, file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, rank, file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( rank, file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, rank, file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( rank, file );*/
+        }
         rank--;
         file--;
     }
@@ -212,8 +319,23 @@ void Get_Possible_Diagonal_Positions(
     file = current_file-1;
     for( square_idx =1 ; rank<=RANK_8 && file>=FILE_A; square_idx++ )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( rank, file );
+        Piece* captured_piece = Get_Piece( rank, file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, rank, file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( rank, file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, rank, file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( rank, file );*/
+        }
         rank++;
         file--;
     }
@@ -222,8 +344,23 @@ void Get_Possible_Diagonal_Positions(
     file = current_file+1;
     for( square_idx =1 ; rank>=RANK_1 && file<=FILE_H; square_idx++ )
     {
-        (*nb_pos)++;
-        pos[*nb_pos] = Create_Position( rank, file );
+        Piece* captured_piece = Get_Piece( rank, file );
+        if( NULL!=captured_piece )
+        {
+            if( Get_Color(Me)!=Get_Color(captured_piece) )
+            {
+                Add_Position( nb_pos, pos, rank, file );
+                /*(*nb_pos)++;
+                pos[*nb_pos] = Create_Position( rank, file );*/
+            }
+            break;
+        }
+        else
+        {
+            Add_Position( nb_pos, pos, rank, file );
+            /*(*nb_pos)++;
+            pos[*nb_pos] = Create_Position( rank, file );*/
+        }
         rank--;
         file++;
     }
@@ -269,4 +406,9 @@ void Get_Possible_Positions(
     int8_t* nb_pos )
 {
     Me->Virtual_Methods->get_possible_positions( Me, possible_pos, nb_pos );
+}
+/*----------------------------------------------------------------------------*/
+int8_t Get_Score( const Piece* Me )
+{
+    return Me->Virtual_Methods->get_score(Me);
 }

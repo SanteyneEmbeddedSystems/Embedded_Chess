@@ -19,6 +19,11 @@ typedef struct {
 /******************************************************************************/
 /** Public methods **/
 /******************************************************************************/
+void Get_Possible_King_Positions_In_Check(
+    const King* Me,
+    T_Position* pos,
+    int8_t* nb_pos );
+
 extern Piece_Meth King_Meth;
 
 #endif

@@ -17,7 +17,8 @@ Piece_Meth Queen_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
     ( char (*) ( const Piece* ) ) Get_Queen_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_Queen_Positions
+        Get_Possible_Queen_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_Queen_Score
 };
 /*----------------------------------------------------------------------------*/
 bool Is_Queen_Movement_Valid(
@@ -77,4 +78,10 @@ void Get_Possible_Queen_Positions(
         pos[ *nb_pos + 1 + idx ] = diag_pos[idx];
     }
     *nb_pos = *nb_pos + nb_diag_pos + 1;
+}
+/*----------------------------------------------------------------------------*/
+int8_t Get_Queen_Score( const Queen* Me )
+{
+    (void)Me; /* unused parameter */
+    return 9;
 }

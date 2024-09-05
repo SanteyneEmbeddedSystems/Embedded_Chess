@@ -79,7 +79,14 @@ void Play( void )
                && command[2]=='a' && command[3]=='y' )
         {
             time_t begin = time( NULL );
-            Find_Best_Move( 4, &start_position, &end_position );
+            if( WHITE==Get_Current_Player() )
+            {
+                Find_Best_Move( 2, &start_position, &end_position );
+            }
+            else
+            {
+                Find_Best_Move( 5, &start_position, &end_position );
+            }
             time_t end = time( NULL);
             unsigned long secondes = (unsigned long) difftime( end, begin );
             Move_Piece_On_Board( start_position, end_position );

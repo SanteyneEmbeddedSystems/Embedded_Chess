@@ -44,4 +44,13 @@ void Get_Possible_Diagonal_Positions(
     T_Position* pos,
     int8_t* nb_pos );
 
+void Add_Position_If_Free(
+    const Piece* Me,
+    int8_t* nb_pos,
+    T_Position* pos,
+    T_Rank rank,
+    T_File file );
+
+void Add_Position( int8_t* nb_pos, T_Position* pos, T_Rank rank, T_File file );
+
 #endif

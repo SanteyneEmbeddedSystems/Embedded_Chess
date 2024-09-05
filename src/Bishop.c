@@ -24,6 +24,8 @@ static void Get_Possible_Bishop_Positions(
     T_Position* pos,
     int8_t* nb_pos );
 
+static int8_t Get_Bishop_Score( const Bishop* Me );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth Bishop_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_Bishop_Movement_Valid,
@@ -33,7 +35,8 @@ Piece_Meth Bishop_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
     ( char (*) ( const Piece* ) ) Get_Bishop_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_Bishop_Positions
+        Get_Possible_Bishop_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_Bishop_Score
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Bishop_Movement_Valid(
@@ -72,4 +75,10 @@ static void Get_Possible_Bishop_Positions(
     int8_t* nb_pos )
 {
     Get_Possible_Diagonal_Positions( (Piece*) Me, pos, nb_pos );
+}
+/*----------------------------------------------------------------------------*/
+static int8_t Get_Bishop_Score( const Bishop* Me )
+{
+    (void)Me; /* unused parameter */
+    return 3;
 }

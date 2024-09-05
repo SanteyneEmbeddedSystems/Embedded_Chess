@@ -43,6 +43,8 @@ static void Get_Possible_Rook_Positions(
     T_Position* pos,
     int8_t* nb_pos );
 
+static int8_t Get_Rook_Score( const Rook* Me );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth Rook_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_Rook_Movement_Valid,
@@ -52,7 +54,8 @@ Piece_Meth Rook_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Rook_Move,
     ( char (*) ( const Piece* ) )Get_Rook_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_Rook_Positions
+        Get_Possible_Rook_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_Rook_Score
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Rook_Movement_Valid(
@@ -108,4 +111,10 @@ static void Get_Possible_Rook_Positions(
     int8_t* nb_pos )
 {
     Get_Possible_Straight_Positions( (Piece*)Me, pos, nb_pos );
+}
+/*----------------------------------------------------------------------------*/
+static int8_t Get_Rook_Score( const Rook* Me )
+{
+    (void)Me; /* unused parameter */
+    return 5;
 }

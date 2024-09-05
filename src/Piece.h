@@ -20,14 +20,14 @@ typedef struct {
     void (*undo_move)( Piece*, T_Movement_Data* );
     char (*get_id)(const Piece*);
     void (*get_possible_positions)( const Piece*, T_Position*, int8_t* );
+    int8_t (*get_score)( const Piece* );
 } Piece_Meth;
 
 
 struct _Piece {
     const Piece_Meth* Virtual_Methods;
     T_Position Position;
-    uint8_t Color:1;
-    uint8_t Score:7;
+    T_Color Color;
 };
 
 
@@ -35,7 +35,6 @@ struct _Piece {
 /** Public methods **/
 /******************************************************************************/
 T_Color Get_Color( const Piece* Me );
-int8_t Get_Score( const Piece* Me );
 T_Position Get_Position( const Piece* Me );
 
 
@@ -68,5 +67,7 @@ void Get_Possible_Positions(
     const Piece* Me,
     T_Position* possible_pos,
     int8_t* nb_pos );
+
+int8_t Get_Score( const Piece* Me );
 
 #endif

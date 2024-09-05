@@ -233,12 +233,13 @@ void Display_Board( void )
             break;
         case WHITE_CHECKMATE :
         case BLACK_CHECKMATE :
-            printf("Checkmate !");
+            printf("Checkmate !\n");
             break;
         case STALEMATE :
-            printf("Stalemate !");
+            printf("Stalemate !\n");
             break;
     }
+    printf( "%u\n", Get_Nb_Movements() );
 }
 /*----------------------------------------------------------------------------*/
 void Ask_For_Command( char* command )

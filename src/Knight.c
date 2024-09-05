@@ -1,6 +1,6 @@
 #include "Knight.h"
 
-
+#include <stdlib.h> /* NULL */
 #include "Piece_Protected.h" /* inheritance */
 #include "Chessboard_Piece.h" /* association to Chessboard */
 
@@ -24,6 +24,8 @@ static void Get_Possible_Knight_Positions(
     T_Position* pos,
     int8_t* nb_pos );
 
+static int8_t Get_Knight_Score( const Knight* Me );
+
 /*----------------------------------------------------------------------------*/
 Piece_Meth Knight_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) )Is_Knight_Movement_Valid,
@@ -33,7 +35,8 @@ Piece_Meth Knight_Meth = {
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
     ( char (*) ( const Piece* ) ) Get_Knight_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
-        Get_Possible_Knight_Positions
+        Get_Possible_Knight_Positions,
+    ( int8_t (*) ( const Piece* ) ) Get_Knight_Score
 };
 /*----------------------------------------------------------------------------*/
 static bool Is_Knight_Movement_Valid(
@@ -93,52 +96,58 @@ static void Get_Possible_Knight_Positions(
     {
         if( current_file>=FILE_B )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank-2, current_file-1 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-2, current_file-1 );
         }
         if( current_file<=FILE_G )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank-2, current_file+1 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-2, current_file+1 );
         }
     }
     if( current_rank<=RANK_6 )
     {
         if( current_file>=FILE_B )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank+2, current_file-1 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+2, current_file-1 );
         }
         if( current_file<=FILE_G )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank+2, current_file+1 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+2, current_file+1 );
         }
     }
     if( current_file>=FILE_C )
     {
         if( current_rank>=RANK_2 )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank-1, current_file-2 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-1, current_file-2 );
         }
         if( current_rank<=RANK_7 )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank+1, current_file-2 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+1, current_file-2 );
         }
     }
     if( current_file<=FILE_F )
     {
         if( current_rank>=RANK_2 )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank-1, current_file+2 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank-1, current_file+2 );
         }
         if( current_rank<=RANK_7 )
         {
-            (*nb_pos)++;
-            pos[*nb_pos] = Create_Position( current_rank+1, current_file+2 );
+            Add_Position_If_Free(
+                (Piece*)Me, nb_pos, pos, current_rank+1, current_file+2 );
         }
     }
+}
+/*----------------------------------------------------------------------------*/
+static int8_t Get_Knight_Score( const Knight* Me )
+{
+    (void)Me; /* unused parameter */
+    return 3;
 }
