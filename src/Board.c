@@ -340,8 +340,8 @@ void Find_Best_Move(
                         Undo_Last_Move();
 
                         /* Check if the move is better and record it if yes. */
-                        if( (WHITE==current_player && move_val > best_val)
-                           || (BLACK==current_player && move_val < best_val) )
+                        if( (WHITE==current_player && move_val >= best_val)
+                           || (BLACK==current_player && move_val <= best_val) )
                         {
                             *best_initial_position = i_position;
                             *best_final_position = possible_pos[pos_idx];
@@ -1078,7 +1078,7 @@ static int16_t Evaluate_At_Depth(
                                 beta);
                             Undo_Last_Move();
                             evaluation = MAX( evaluation, move_val );
-                            if( evaluation > beta )
+                            if( evaluation >= beta )
                             {
                                 return evaluation;
                             }
@@ -1119,7 +1119,7 @@ static int16_t Evaluate_At_Depth(
                                 beta);
                             Undo_Last_Move();
                             evaluation = MIN( evaluation, move_val );
-                            if( alpha > evaluation )
+                            if( alpha >= evaluation )
                             {
                                 return evaluation;
                             }
