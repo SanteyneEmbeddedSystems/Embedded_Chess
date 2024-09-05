@@ -204,6 +204,8 @@ void Display_Board( void )
     Draw_Line_Id();
     printf("\n");
 
+    printf( "Number of movements : %u\n", Get_Nb_Movements() );
+
     switch( Get_State() )
     {
         case INVALID :
@@ -239,7 +241,6 @@ void Display_Board( void )
             printf("Stalemate !\n");
             break;
     }
-    printf( "%u\n", Get_Nb_Movements() );
 }
 /*----------------------------------------------------------------------------*/
 void Ask_For_Command( char* command )
