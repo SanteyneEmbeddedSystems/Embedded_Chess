@@ -467,50 +467,29 @@ static bool Is_Stalemated( T_Color next_player )
             Piece* moving_piece = Get_Piece( start_rank, start_file );
             if( moving_piece!=NULL && Get_Color(moving_piece)==next_player )
             {
-                /* Try to move the piece at any position. */
-                for( T_Rank end_rank=RANK_1 ; end_rank<=RANK_8 ; end_rank++ )
+                T_Position f_pos[27]; /* max is for Queen */
+                int8_t nb_pos;
+                Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+
+                for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
                 {
-                    for( T_File end_file=FILE_A ; end_file<=FILE_H ; end_file++)
+                    T_Movement_Data movement = Create_Movement_Data(
+                        moving_piece,
+                        Get_Position(moving_piece),
+                        f_pos[pos_idx],
+                        0 /* no matter, will not be stored */ );
+
+                    if( true==Is_Movement_Valid( moving_piece, &movement ) )
                     {
-                        /* Except for start position */
-                        if( start_file!=end_file || start_rank!=end_rank )
+                        Try_Move( &movement );
+                        bool king_is_in_check;
+                        king_is_in_check = Is_In_Check(next_player);
+                        Cancel_Move( &movement );
+
+                        /* Return false if player to move is not in check. */
+                        if( false==king_is_in_check )
                         {
-                            /* Verify if the validity of the movement has to be
-                            checked : end position is empty or occupied by
-                            opponent. */
-                            bool verify_validity = true;
-                            Piece* end_piece = Get_Piece( end_rank, end_file );
-                            if( end_piece!=NULL
-                               && Get_Color(end_piece)==next_player )
-                            {
-                                verify_validity = false;
-                            }
-
-                            if( true==verify_validity )
-                            {
-                                T_Movement_Data movement = Create_Movement_Data(
-                                    moving_piece,
-                                    Get_Position(moving_piece),
-                                    Create_Position( end_rank, end_file ),
-                                    0 /* no matter, will not be stored */ );
-
-                                if( true==Is_Movement_Valid(
-                                            moving_piece,
-                                            &movement ) )
-                                {
-                                    Try_Move( &movement );
-                                    bool king_is_in_check;
-                                    king_is_in_check = Is_In_Check(next_player);
-                                    Cancel_Move( &movement );
-
-                                    /* Return false if player to move is not in
-                                    check. */
-                                    if( false==king_is_in_check )
-                                    {
-                                        return false;
-                                    }
-                                }
-                            }
+                            return false;
                         }
                     }
                 }
