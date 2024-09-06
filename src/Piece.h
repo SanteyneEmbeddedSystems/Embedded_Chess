@@ -27,7 +27,7 @@ typedef struct {
 struct _Piece {
     const Piece_Meth* Virtual_Methods;
     T_Position Position;
-    T_Color Color;
+    const T_Color Color;
 };
 
 

@@ -3,7 +3,9 @@
 #include <stdlib.h> /* NULL */
 
 #include "Piece_Protected.h" /* inheritance */
+
 #include "Chessboard_King.h" /* association to Chessboard */
+
 
 /******************************************************************************/
 /** Private methods definition **/
@@ -80,10 +82,6 @@ static bool Is_King_Movement_Valid(
 
 static bool Can_King_Capture_At_Position( const King* Me, T_Position position );
 
-static void Move_King( King* Me, T_Movement_Data* movement );
-
-static void Undo_King_Move( King* Me, T_Movement_Data* movement);
-
 static char Get_King_Identifier(const King* Me);
 
 static void Get_Possible_King_Positions(
@@ -97,8 +95,8 @@ static int8_t Get_King_Score( const King* Me );
 Piece_Meth King_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_King_Movement_Valid,
     ( bool (*) ( const Piece*, T_Position ) ) Can_King_Capture_At_Position,
-    ( void (*) ( Piece*, T_Movement_Data* ) ) Move_King,
-    ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_King_Move,
+    ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Castled,
+    ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Castled_Move,
     ( char (*) ( const Piece* ) ) Get_King_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
         Get_Possible_King_Positions,
@@ -206,24 +204,6 @@ static bool Can_King_Capture_At_Position( const King* Me, T_Position position )
     }
 }
 /*----------------------------------------------------------------------------*/
-static void Move_King( King* Me, T_Movement_Data* movement )
-{
-    Move_Piece_Default( (Piece*)Me, movement );
-    if( Me->First_Move_Index==NB_RECORDABLE_MOVEMENTS )
-    {
-        Me->First_Move_Index = movement->move_index;
-    }
-}
-/*----------------------------------------------------------------------------*/
-static void Undo_King_Move( King* Me, T_Movement_Data* movement )
-{
-    Undo_Piece_Move_Default( (Piece*)Me, movement );
-    if( Me->First_Move_Index==movement->move_index )
-    {
-        Me->First_Move_Index=NB_RECORDABLE_MOVEMENTS;
-    }
-}
-/*----------------------------------------------------------------------------*/
 static char Get_King_Identifier(const King* Me)
 {
     (void)Me; /* unused parameter */
@@ -277,7 +257,7 @@ static E_CASTLING_ALLOWED Is_Castling_Allowed( const King* Me )
     /* Verify that king is not check and has not already moved. */
     /* Verify final rank */
     T_Board_State chessboard_state = Get_State();
-    if( NB_RECORDABLE_MOVEMENTS==Me->First_Move_Index
+    if( NB_RECORDABLE_MOVEMENTS==Get_First_Move_Index( (Castled*)Me )
        && ( ( king_color==WHITE && chessboard_state!=WHITE_CHECK )
            || ( king_color==BLACK && chessboard_state!=BLACK_CHECK ) )
       )

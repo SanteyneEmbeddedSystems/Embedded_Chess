@@ -1,7 +1,7 @@
 #ifndef ROOK_H
 #define ROOK_H
 
-#include "Piece.h"
+#include "Castled.h"
 #include <stdbool.h>
 
 
@@ -9,9 +9,8 @@
 /** Class definition **/
 /******************************************************************************/
 typedef struct {
-    /* Inherits from Piece */
-    Piece Super;
-    uint8_t First_Move_Index;
+    /* Inherits from Castled */
+    Castled Super;
 } Rook;
 
 

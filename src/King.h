@@ -1,8 +1,7 @@
 #ifndef KING_H
 #define KING_H
 
-#include "Piece.h"
-#include "Position.h"
+#include "Castled.h"
 #include <stdint.h>
 
 
@@ -10,9 +9,8 @@
 /** Class definition **/
 /******************************************************************************/
 typedef struct {
-    /* Inherits from Piece */
-    Piece Super;
-    uint8_t First_Move_Index;
+    /* Inherits from Castled */
+    Castled Super;
 } King;
 
 

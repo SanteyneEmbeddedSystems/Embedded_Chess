@@ -22,14 +22,16 @@
 /* White */
 Rook a_white_rook = {
     .Super = {
-        .Virtual_Methods = &Rook_Meth,
-        .Color = WHITE,
-        .Position = {
-            .rank = RANK_1,
-            .file = FILE_A
-        }
-    },
-    .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+        .Super = {
+            .Virtual_Methods = &Rook_Meth,
+            .Color = WHITE,
+            .Position = {
+                .rank = RANK_1,
+                .file = FILE_A
+            }
+        },
+        .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+    }
 };
 
 Knight b_white_knight = {
@@ -67,14 +69,16 @@ Queen white_queen = {
 
 King white_king = {
     .Super = {
-        .Virtual_Methods = &King_Meth,
-        .Color = WHITE,
-        .Position = {
-            .rank = RANK_1,
-            .file = FILE_E
-        }
-    },
-    .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+        .Super = {
+            .Virtual_Methods = &King_Meth,
+            .Color = WHITE,
+            .Position = {
+                .rank = RANK_1,
+                .file = FILE_E
+            }
+        },
+        .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+    }
 };
 
 Bishop f_white_bishop = {
@@ -101,14 +105,16 @@ Knight g_white_knight = {
 
 Rook h_white_rook = {
     .Super = {
-        .Virtual_Methods = &Rook_Meth,
-        .Color = WHITE,
-        .Position = {
-            .rank = RANK_1,
-            .file = FILE_H
-        }
-    },
-    .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+        .Super = {
+            .Virtual_Methods = &Rook_Meth,
+            .Color = WHITE,
+            .Position = {
+                .rank = RANK_1,
+                .file = FILE_H
+            }
+        },
+        .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+    }
 };
 
 Pawn pawn_a2 = {
@@ -202,14 +208,16 @@ Pawn pawn_h2 = {
 /* Black */
 Rook a_black_rook = {
     .Super = {
-        .Virtual_Methods = &Rook_Meth,
-        .Color = BLACK,
-        .Position = {
-            .rank = RANK_8,
-            .file = FILE_A
-        }
-    },
-    .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+        .Super = {
+            .Virtual_Methods = &Rook_Meth,
+            .Color = BLACK,
+            .Position = {
+                .rank = RANK_8,
+                .file = FILE_A
+            }
+        },
+        .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+    }
 };
 
 Knight b_black_knight = {
@@ -247,14 +255,16 @@ Queen black_queen = {
 
 King black_king = {
     .Super = {
-        .Virtual_Methods = &King_Meth,
-        .Color = BLACK,
-        .Position = {
-            .rank = RANK_8,
-            .file = FILE_E
-        }
-    },
-    .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+        .Super = {
+            .Virtual_Methods = &King_Meth,
+            .Color = BLACK,
+            .Position = {
+                .rank = RANK_8,
+                .file = FILE_E
+            }
+        },
+        .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+    }
 };
 
 Bishop f_black_bishop = {
@@ -281,14 +291,16 @@ Knight g_black_knight = {
 
 Rook h_black_rook = {
     .Super = {
-        .Virtual_Methods = &Rook_Meth,
-        .Color = BLACK,
-        .Position = {
-            .rank = RANK_8,
-            .file = FILE_H
-        }
-    },
-    .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+        .Super = {
+            .Virtual_Methods = &Rook_Meth,
+            .Color = BLACK,
+            .Position = {
+                .rank = RANK_8,
+                .file = FILE_H
+            }
+        },
+        .First_Move_Index = NB_RECORDABLE_MOVEMENTS
+    }
 };
 
 Pawn pawn_a7 = {

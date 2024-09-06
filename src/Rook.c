@@ -2,6 +2,7 @@
 
 
 #include "Piece_Protected.h" /* inheritance */
+
 #include "Chessboard_Piece.h" /* association to Chessboard */
 
 
@@ -10,7 +11,7 @@
 /******************************************************************************/
 bool Has_Rook_Moved( const Rook* Me )
 {
-    if( Me->First_Move_Index==NB_RECORDABLE_MOVEMENTS )
+    if( Get_First_Move_Index( (Castled*)Me )==NB_RECORDABLE_MOVEMENTS )
     {
         return false;
     }
@@ -30,9 +31,6 @@ static bool Is_Rook_Movement_Valid(
 
 static bool Can_Rook_Capture_At_Position( const Rook* Me, T_Position position );
 
-static void Move_Rook( Rook* Me, T_Movement_Data* movement );
-static void Undo_Rook_Move( Rook* Me, T_Movement_Data* movement );
-
 static char Get_Rook_Identifier(const Rook* Me);
 
 static void Get_Possible_Rook_Positions(
@@ -46,8 +44,8 @@ static int8_t Get_Rook_Score( const Rook* Me );
 Piece_Meth Rook_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_Rook_Movement_Valid,
     ( bool (*) ( const Piece*, T_Position ) ) Can_Rook_Capture_At_Position,
-    ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Rook,
-    ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Rook_Move,
+    ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Castled,
+    ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Castled_Move,
     ( char (*) ( const Piece* ) )Get_Rook_Identifier,
     ( void (*) ( const Piece*, T_Position*, int8_t* ) )
         Get_Possible_Rook_Positions,
@@ -77,24 +75,6 @@ static bool Can_Rook_Capture_At_Position( const Rook* Me, T_Position position )
        }
     }
     return false;
-}
-/*----------------------------------------------------------------------------*/
-static void Move_Rook( Rook* Me, T_Movement_Data* movement )
-{
-    Move_Piece_Default( (Piece*)Me, movement );
-    if( Me->First_Move_Index==NB_RECORDABLE_MOVEMENTS )
-    {
-        Me->First_Move_Index = movement->move_index;
-    }
-}
-/*----------------------------------------------------------------------------*/
-static void Undo_Rook_Move( Rook* Me, T_Movement_Data* movement )
-{
-    Undo_Piece_Move_Default( (Piece*)Me, movement );
-    if( Me->First_Move_Index==movement->move_index )
-    {
-        Me->First_Move_Index = NB_RECORDABLE_MOVEMENTS;
-    }
 }
 /*----------------------------------------------------------------------------*/
 static char Get_Rook_Identifier( const Rook* Me )
