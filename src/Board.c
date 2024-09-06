@@ -1015,8 +1015,6 @@ static int16_t Evaluate_At_Depth(
                 Piece* moving_piece = Get_Piece( i_rank, i_file );
                 if( NULL!=moving_piece && WHITE==Get_Color(moving_piece) )
                 {
-                    T_Position i_pos = Create_Position( i_rank, i_file );
-
                     T_Position f_pos[27]; /* max is for Queen */
                     int8_t nb_pos;
                     Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
@@ -1024,7 +1022,9 @@ static int16_t Evaluate_At_Depth(
                     for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
                     {
                         T_Board_State move_state;
-                        move_state = Move_Piece_On_Board(i_pos, f_pos[pos_idx]);
+                        move_state = Move_Piece_On_Board(
+                            Get_Position((Piece*)moving_piece),
+                            f_pos[pos_idx]);
                         if( INVALID!=move_state )
                         {
                             move_val = Evaluate_At_Depth(
@@ -1056,8 +1056,6 @@ static int16_t Evaluate_At_Depth(
                 Piece* moving_piece = Get_Piece( i_rank, i_file );
                 if( NULL!=moving_piece && BLACK==Get_Color(moving_piece) )
                 {
-                    T_Position i_pos = Create_Position( i_rank, i_file );
-
                     T_Position f_pos[27]; /* max is for Queen */
                     int8_t nb_pos;
                     Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
@@ -1065,7 +1063,9 @@ static int16_t Evaluate_At_Depth(
                     for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
                     {
                         T_Board_State move_state;
-                        move_state = Move_Piece_On_Board(i_pos, f_pos[pos_idx]);
+                        move_state = Move_Piece_On_Board(
+                            Get_Position((Piece*)moving_piece),
+                            f_pos[pos_idx]);
                         if( INVALID!=move_state )
                         {
                             move_val = Evaluate_At_Depth(
