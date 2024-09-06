@@ -15,7 +15,7 @@ typedef struct _Piece Piece;
 /******************************************************************************/
 typedef struct {
     bool (*is_move_valid)( const Piece*, T_Movement_Data* );
-    bool (*can_capture_at_position)( const Piece*, T_Position , T_Position );
+    bool (*can_capture_at_position)( const Piece*, T_Position );
     void (*move)( Piece*, T_Movement_Data* );
     void (*undo_move)( Piece*, T_Movement_Data* );
     char (*get_id)(const Piece*);
@@ -48,11 +48,7 @@ T_Position Get_Position( const Piece* Me );
 /* Does not modify the board */
 bool Is_Movement_Valid( const Piece* Me, T_Movement_Data* movement );
 
-/* Assumes that Me is on initial_position */
-bool Can_Capture_At_Position(
-    const Piece* Me,
-    T_Position initial_position,
-    T_Position final_position);
+bool Can_Capture_At_Position( const Piece* Me, T_Position position);
 
 /* Modifies internal attributes of Piece */
 void Move_Piece( Piece* Me, T_Movement_Data* movement );

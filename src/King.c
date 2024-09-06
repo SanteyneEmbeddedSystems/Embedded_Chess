@@ -24,8 +24,9 @@ void Get_Possible_King_Positions_In_Check(
     T_Position* pos,
     int8_t* nb_pos )
 {
-    T_Rank current_rank = Me->Super.Position.rank;
-    T_File current_file = Me->Super.Position.file;
+    T_Position my_pos = Get_Position( (Piece*)Me );
+    T_Rank current_rank = Get_Rank(my_pos);
+    T_File current_file = Get_File(my_pos);
     *nb_pos = -1;
     if( current_file > FILE_A )
     {
@@ -77,10 +78,7 @@ static bool Is_King_Movement_Valid(
     const King* Me,
     T_Movement_Data* movement );
 
-static bool Can_King_Capture_At_Position(
-    const King* Me,
-    T_Position king_position,
-    T_Position capture_position);
+static bool Can_King_Capture_At_Position( const King* Me, T_Position position );
 
 static void Move_King( King* Me, T_Movement_Data* movement );
 
@@ -98,8 +96,7 @@ static int8_t Get_King_Score( const King* Me );
 /*----------------------------------------------------------------------------*/
 Piece_Meth King_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_King_Movement_Valid,
-    ( bool (*) ( const Piece*, T_Position, T_Position ) )
-        Can_King_Capture_At_Position,
+    ( bool (*) ( const Piece*, T_Position ) ) Can_King_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_King,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_King_Move,
     ( char (*) ( const Piece* ) ) Get_King_Identifier,
@@ -117,7 +114,7 @@ static bool Is_King_Movement_Valid(
     T_Position initial_pos = movement->initial_position;
     T_Position final_pos = movement->final_position;
 
-    result = Can_King_Capture_At_Position( Me, initial_pos, final_pos );
+    result = Can_King_Capture_At_Position( Me, final_pos );
     if(true==result)
     {
         movement->move_type = NORMAL;
@@ -168,17 +165,13 @@ static bool Is_King_Movement_Valid(
     return result;
 }
 /*----------------------------------------------------------------------------*/
-static bool Can_King_Capture_At_Position(
-    const King* Me,
-    T_Position king_position,
-    T_Position capture_position )
+static bool Can_King_Capture_At_Position( const King* Me, T_Position position )
 {
-    (void)Me; /* unused parameter */
-
+    T_Position my_pos = Get_Position((Piece*)Me);
     /* Get file variation */
     uint8_t diff_file= 0;
-    T_File king_file = Get_File(king_position);
-    T_File capture_file = Get_File(capture_position);
+    T_File king_file = Get_File(my_pos);
+    T_File capture_file = Get_File(position);
     if( king_file > capture_file )
     {
         diff_file = king_file - capture_file;
@@ -190,8 +183,8 @@ static bool Can_King_Capture_At_Position(
 
     /* Get rank variation */
     uint8_t diff_rank = 0;
-    T_Rank king_rank = Get_Rank(king_position);
-    T_Rank capture_rank = Get_Rank(capture_position);
+    T_Rank king_rank = Get_Rank(my_pos);
+    T_Rank capture_rank = Get_Rank(position);
     if( king_rank > capture_rank )
     {
         diff_rank = king_rank - capture_rank;
@@ -202,7 +195,7 @@ static bool Can_King_Capture_At_Position(
     }
 
     /* Check if rank or file has varied from at most 1 */
-    /* ( assume that king_position != capture_position ) */
+    /* ( assume that king position != capture_position ) */
     if( diff_file<=1 && diff_rank<=1 )
     {
         return true;
@@ -215,20 +208,20 @@ static bool Can_King_Capture_At_Position(
 /*----------------------------------------------------------------------------*/
 static void Move_King( King* Me, T_Movement_Data* movement )
 {
+    Move_Piece_Default( (Piece*)Me, movement );
     if( Me->First_Move_Index==NB_RECORDABLE_MOVEMENTS )
     {
         Me->First_Move_Index = movement->move_index;
     }
-    Me->Super.Position = movement->final_position;
 }
 /*----------------------------------------------------------------------------*/
 static void Undo_King_Move( King* Me, T_Movement_Data* movement )
 {
+    Undo_Piece_Move_Default( (Piece*)Me, movement );
     if( Me->First_Move_Index==movement->move_index )
     {
         Me->First_Move_Index=NB_RECORDABLE_MOVEMENTS;
     }
-    Me->Super.Position = movement->initial_position;
 }
 /*----------------------------------------------------------------------------*/
 static char Get_King_Identifier(const King* Me)
@@ -243,19 +236,25 @@ static void Get_Possible_King_Positions(
     int8_t* nb_pos )
 {
     Get_Possible_King_Positions_In_Check( Me, pos, nb_pos );
+
+    T_Rank my_rank = RANK_1;
+    if( BLACK==Get_Color((Piece*)Me) )
+    {
+        my_rank = RANK_8;
+    }
     switch( Is_Castling_Allowed(Me) )
     {
         case NOT_ALLOWED:
             break;
         case KING_SIDE_ALLOWED:
-            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_G );
+            Add_Position( nb_pos, pos, my_rank, FILE_G );
             break;
         case QUEEN_SIDE_ALLOWED:
-            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_C );
+            Add_Position( nb_pos, pos, my_rank, FILE_C );
             break;
         case BOTH_SIDE_ALLOWED:
-            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_G );
-            Add_Position( nb_pos, pos, Me->Super.Position.rank, FILE_C );
+            Add_Position( nb_pos, pos, my_rank, FILE_G );
+            Add_Position( nb_pos, pos, my_rank, FILE_C );
             break;
     }
 }

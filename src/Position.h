@@ -2,6 +2,7 @@
 #define POSITION_H
 
 #include <stdint.h>
+#include "stdbool.h"
 
 typedef int8_t T_Rank;
 #define RANK_1 0
@@ -34,5 +35,7 @@ T_Position Create_Position( T_Rank rank, T_File file );
 
 T_Rank Get_Rank( T_Position position );
 T_File Get_File( T_Position position );
+
+bool Are_Positions_Equal( T_Position pos1, T_Position pos2 );
 
 #endif

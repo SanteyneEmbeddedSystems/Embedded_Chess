@@ -21,12 +21,10 @@
 /******************************************************************************/
 /* White */
 Rook a_white_rook = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Rook_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_A
         }
@@ -35,12 +33,10 @@ Rook a_white_rook = {
 };
 
 Knight b_white_knight = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Knight_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_B
         }
@@ -48,12 +44,10 @@ Knight b_white_knight = {
 };
 
 Bishop c_white_bishop = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Bishop_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_C
         }
@@ -61,12 +55,10 @@ Bishop c_white_bishop = {
 };
 
 Queen white_queen = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Queen_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_D
         }
@@ -74,12 +66,10 @@ Queen white_queen = {
 };
 
 King white_king = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &King_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_E
         }
@@ -88,12 +78,10 @@ King white_king = {
 };
 
 Bishop f_white_bishop = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Bishop_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_F
         }
@@ -101,12 +89,10 @@ Bishop f_white_bishop = {
 };
 
 Knight g_white_knight = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Knight_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_G
         }
@@ -114,12 +100,10 @@ Knight g_white_knight = {
 };
 
 Rook h_white_rook = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Rook_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_1,
             .file = FILE_H
         }
@@ -128,12 +112,10 @@ Rook h_white_rook = {
 };
 
 Pawn pawn_a2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_A
         }
@@ -141,12 +123,10 @@ Pawn pawn_a2 = {
 };
 
 Pawn pawn_b2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_B
         }
@@ -154,12 +134,10 @@ Pawn pawn_b2 = {
 };
 
 Pawn pawn_c2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_C
         }
@@ -167,12 +145,10 @@ Pawn pawn_c2 = {
 };
 
 Pawn pawn_d2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_D
         }
@@ -180,12 +156,10 @@ Pawn pawn_d2 = {
 };
 
 Pawn pawn_e2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_E
         }
@@ -193,12 +167,10 @@ Pawn pawn_e2 = {
 };
 
 Pawn pawn_f2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_F
         }
@@ -206,12 +178,10 @@ Pawn pawn_f2 = {
 };
 
 Pawn pawn_g2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_G
         }
@@ -219,12 +189,10 @@ Pawn pawn_g2 = {
 };
 
 Pawn pawn_h2 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = WHITE,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_2,
             .file = FILE_H
         }
@@ -233,12 +201,10 @@ Pawn pawn_h2 = {
 
 /* Black */
 Rook a_black_rook = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Rook_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_A
         }
@@ -247,12 +213,10 @@ Rook a_black_rook = {
 };
 
 Knight b_black_knight = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Knight_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_B
         }
@@ -260,12 +224,10 @@ Knight b_black_knight = {
 };
 
 Bishop c_black_bishop = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Bishop_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_C
         }
@@ -273,12 +235,10 @@ Bishop c_black_bishop = {
 };
 
 Queen black_queen = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Queen_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_D
         }
@@ -286,12 +246,10 @@ Queen black_queen = {
 };
 
 King black_king = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &King_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_E
         }
@@ -300,12 +258,10 @@ King black_king = {
 };
 
 Bishop f_black_bishop = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Bishop_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_F
         }
@@ -313,12 +269,10 @@ Bishop f_black_bishop = {
 };
 
 Knight g_black_knight = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Knight_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_G
         }
@@ -326,12 +280,10 @@ Knight g_black_knight = {
 };
 
 Rook h_black_rook = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Rook_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_8,
             .file = FILE_H
         }
@@ -340,12 +292,10 @@ Rook h_black_rook = {
 };
 
 Pawn pawn_a7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_A
         }
@@ -353,12 +303,10 @@ Pawn pawn_a7 = {
 };
 
 Pawn pawn_b7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_B
         }
@@ -366,12 +314,10 @@ Pawn pawn_b7 = {
 };
 
 Pawn pawn_c7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_C
         }
@@ -379,12 +325,10 @@ Pawn pawn_c7 = {
 };
 
 Pawn pawn_d7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_D
         }
@@ -392,12 +336,10 @@ Pawn pawn_d7 = {
 };
 
 Pawn pawn_e7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_E
         }
@@ -405,12 +347,10 @@ Pawn pawn_e7 = {
 };
 
 Pawn pawn_f7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_F
         }
@@ -418,12 +358,10 @@ Pawn pawn_f7 = {
 };
 
 Pawn pawn_g7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_G
         }
@@ -431,12 +369,10 @@ Pawn pawn_g7 = {
 };
 
 Pawn pawn_h7 = {
-    .Super =
-    {
+    .Super = {
         .Virtual_Methods = &Pawn_Meth,
         .Color = BLACK,
-        .Position =
-        {
+        .Position = {
             .rank = RANK_7,
             .file = FILE_H
         }
@@ -479,2184 +415,5 @@ Board Chessboard = {
     .White_H_Rook = &h_white_rook,
     .Black_A_Rook = &a_black_rook,
     .Black_H_Rook = &h_black_rook,
-    .Nb_Movements = 0,
-    .Movements =
-    {
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        },
-        {
-            .moved_piece = NULL,
-            .captured_piece = NULL,
-            .initial_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .final_position =
-            {
-                .rank = 0,
-                .file = 0
-            },
-            .move_type = NORMAL,
-            .move_index = 0,
-            .board_state = INVALID
-        }
-    }
+    .Nb_Movements = 0
 };

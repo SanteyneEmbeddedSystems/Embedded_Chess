@@ -29,10 +29,7 @@ static bool Is_En_Passant(
 static bool Is_Pawn_Movement_Valid(
     const Pawn* Me,
     T_Movement_Data* movement );
-static bool Can_Pawn_Capture_At_Position(
-    const Pawn* Me,
-    T_Position pawn_position,
-    T_Position capture_position);
+static bool Can_Pawn_Capture_At_Position( const Pawn* Me, T_Position position );
 static void Move_Pawn( Pawn* Me, T_Movement_Data* movement );
 static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement);
 static char Get_Pawn_Identifier(const Pawn* Me);
@@ -45,8 +42,7 @@ static int8_t Get_Pawn_Score( const Pawn* Me );
 /*----------------------------------------------------------------------------*/
 Piece_Meth Pawn_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_Pawn_Movement_Valid,
-    ( bool (*) ( const Piece*, T_Position, T_Position ) )
-        Can_Pawn_Capture_At_Position,
+    ( bool (*) ( const Piece*, T_Position ) ) Can_Pawn_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Pawn,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Piece_Move_Default,
     ( char (*) ( const Piece* ) ) Get_Pawn_Identifier,
@@ -57,8 +53,7 @@ Piece_Meth Pawn_Meth = {
 /*----------------------------------------------------------------------------*/
 Piece_Meth Promoted_Pawn_Meth = {
     ( bool (*) ( const Piece*, T_Movement_Data* ) ) Is_Queen_Movement_Valid,
-    ( bool (*) ( const Piece*, T_Position, T_Position ) )
-        Can_Queen_Capture_At_Position,
+    ( bool (*) ( const Piece*, T_Position ) ) Can_Queen_Capture_At_Position,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Move_Piece_Default,
     ( void (*) ( Piece*, T_Movement_Data* ) ) Undo_Promoted_Pawn_Move,
     ( char (*) ( const Piece* ) ) Get_Queen_Identifier,
@@ -81,7 +76,7 @@ static bool Is_Pawn_Movement_Valid(
 
     /* Treat capture */
     Piece* captured_piece = Get_Piece_By_Position(final_pos);
-    if( Can_Pawn_Capture_At_Position(Me, initial_pos, final_pos) )
+    if( Can_Pawn_Capture_At_Position(Me, final_pos) )
     {
         /* "Normal" capture */
         /* Verify that there is a piece at final_position. */
@@ -159,16 +154,14 @@ static bool Is_Pawn_Movement_Valid(
     return result;
 }
 /*----------------------------------------------------------------------------*/
-static bool Can_Pawn_Capture_At_Position(
-    const Pawn* Me,
-    T_Position pawn_position,
-    T_Position capture_position )
+static bool Can_Pawn_Capture_At_Position( const Pawn* Me, T_Position position )
 {
     T_Color pawn_color = Get_Color((Piece*)Me);
-    T_Rank capture_rank = Get_Rank(capture_position);
-    T_File capture_file = Get_File(capture_position);
-    T_Rank pawn_rank = Get_Rank(pawn_position);
-    T_File pawn_file = Get_File(pawn_position);
+    T_Rank capture_rank = Get_Rank(position);
+    T_File capture_file = Get_File(position);
+    T_Position my_pos = Get_Position( (Piece*)Me );
+    T_Rank pawn_rank = Get_Rank(my_pos);
+    T_File pawn_file = Get_File(my_pos);
 
     if(   ( capture_file==pawn_file+1 || capture_file==pawn_file-1 )
        && (
@@ -188,20 +181,20 @@ static bool Can_Pawn_Capture_At_Position(
 /*----------------------------------------------------------------------------*/
 static void Move_Pawn( Pawn* Me, T_Movement_Data* movement )
 {
+    Move_Piece_Default( (Piece*)Me, movement );
     if( PROMOTION==movement->move_type )
     {
         Me->Super.Virtual_Methods = &Promoted_Pawn_Meth;
     }
-    Me->Super.Position = movement->final_position;
 }
 /*----------------------------------------------------------------------------*/
 static void Undo_Promoted_Pawn_Move( Pawn* Me, T_Movement_Data* movement)
 {
+    Undo_Piece_Move_Default( (Piece*)Me, movement );
     if( PROMOTION==movement->move_type )
     {
         Me->Super.Virtual_Methods = &Pawn_Meth;
     }
-    Me->Super.Position = movement->initial_position;
 }
 /*----------------------------------------------------------------------------*/
 static char Get_Pawn_Identifier(const Pawn* Me)
@@ -216,8 +209,9 @@ static void Get_Possible_Pawn_Positions(
     int8_t* nb_pos )
 {
     T_Color pawn_color = Get_Color((Piece*)Me);
-    T_Rank current_rank = Me->Super.Position.rank;
-    T_File current_file = Me->Super.Position.file;
+    T_Position my_pos = Get_Position((Piece*)Me);
+    T_Rank current_rank = Get_Rank(my_pos);
+    T_File current_file = Get_File(my_pos);
     *nb_pos = -1;
     Piece* captured_piece = NULL;
     if( WHITE==pawn_color )

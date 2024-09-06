@@ -18,3 +18,15 @@ T_File Get_File( T_Position position )
 {
     return position.file;
 }
+
+bool Are_Positions_Equal( T_Position pos1, T_Position pos2 )
+{
+    if( pos1.file==pos2.file && pos1.rank==pos2.rank )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}

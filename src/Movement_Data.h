@@ -10,7 +10,7 @@ typedef struct _T_Movement_Data T_Movement_Data;
 #include <stdint.h>
 
 
-#define NB_RECORDABLE_MOVEMENTS 128
+#define NB_RECORDABLE_MOVEMENTS 100
 
 typedef uint8_t T_Move_Type;
 #define NORMAL 0
