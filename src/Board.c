@@ -256,18 +256,18 @@ bool Has_Rook_Already_Moved( T_Color rook_color, T_File rook_file )
 /*----------------------------------------------------------------------------*/
 bool Is_Position_Capturable( T_Position position, T_Color player_color )
 {
-    for( T_Rank rank=RANK_1 ; rank<=RANK_8 ; rank++ )
+    Piece** list_of_pieces = Chessboard.White_Pieces;
+    if(BLACK==player_color)
     {
-        for( T_File file=FILE_A ; file<=FILE_H ; file++ )
+        list_of_pieces = Chessboard.Black_Pieces;
+    }
+
+    for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
+    {
+        Piece* current_piece = list_of_pieces[p_idx];
+        if( true==Can_Capture_At_Position( current_piece, position) )
         {
-            Piece* current_piece = Get_Piece( rank, file );
-            if( current_piece!=NULL && Get_Color(current_piece)==player_color )
-            {
-                if( true==Can_Capture_At_Position( current_piece, position) )
-                {
-                    return true;
-                }
-            }
+            return true;
         }
     }
     return false;
@@ -297,50 +297,46 @@ void Find_Best_Move(
     T_Position* best_initial_position,
     T_Position* best_final_position )
 {
-    int16_t best_val = INT16_MAX;
+    int16_t best_val = INT16_MIN;
+    Piece** list_of_pieces = Chessboard.White_Pieces;
 
     T_Color current_player = Get_Current_Player();
-    if( WHITE==current_player )
+    if( BLACK==current_player )
     {
-        best_val = INT16_MIN;
+        best_val = INT16_MAX;
+        list_of_pieces = Chessboard.Black_Pieces;
     }
 
-    for( T_Rank i_rank = RANK_1 ; i_rank<= RANK_8 ; i_rank++ )
+    for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
     {
-        for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
+        Piece* moving_piece = list_of_pieces[p_idx];
+        T_Position i_position = Get_Position( moving_piece );
+        T_Position possible_pos[27] = {0}; /* max is for Queen */
+        int8_t nb_pos;
+        Get_Possible_Positions( moving_piece, possible_pos, &nb_pos );
+
+        for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
         {
-            Piece* moving_piece = Get_Piece( i_rank, i_file );
-            if( NULL!=moving_piece && current_player==Get_Color(moving_piece) )
+            T_Board_State move_state;
+            move_state = Move_Piece_On_Board(
+                i_position,
+                possible_pos[pos_idx] );
+            if( INVALID!=move_state )
             {
-                T_Position i_position = Create_Position( i_rank, i_file );
-                T_Position possible_pos[27] = {0}; /* max is for Queen */
-                int8_t nb_pos;
-                Get_Possible_Positions( moving_piece, possible_pos, &nb_pos );
+                int16_t move_val = Evaluate_At_Depth(
+                    1, /* first step */
+                    evaluation_depth,
+                    INT16_MIN, /* alpha init */
+                    INT16_MAX); /* beta init */
+                Undo_Last_Move();
 
-                for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+                /* Check if the move is better and record it if yes. */
+                if( (WHITE==current_player && move_val >= best_val)
+                   || (BLACK==current_player && move_val <= best_val) )
                 {
-                    T_Board_State move_state;
-                    move_state = Move_Piece_On_Board(
-                        i_position,
-                        possible_pos[pos_idx] );
-                    if( INVALID!=move_state )
-                    {
-                        int16_t move_val = Evaluate_At_Depth(
-                            1, /* first step */
-                            evaluation_depth,
-                            INT16_MIN, /* alpha init */
-                            INT16_MAX); /* beta init */
-                        Undo_Last_Move();
-
-                        /* Check if the move is better and record it if yes. */
-                        if( (WHITE==current_player && move_val >= best_val)
-                           || (BLACK==current_player && move_val <= best_val) )
-                        {
-                            *best_initial_position = i_position;
-                            *best_final_position = possible_pos[pos_idx];
-                            best_val = move_val;
-                        }
-                    }
+                    *best_initial_position = i_position;
+                    *best_final_position = possible_pos[pos_idx];
+                    best_val = move_val;
                 }
             }
         }
@@ -403,25 +399,24 @@ static bool Is_Checkmated( T_Color player_color )
     T_Position player_king_position;
     const King* player_king = Get_King( player_color );
     player_king_position = Get_Position( (Piece*)player_king );
+    Piece** list_of_pieces = Chessboard.White_Pieces;
+    if(BLACK!=player_color)
+    {
+        list_of_pieces = Chessboard.Black_Pieces;
+    }
 
     /* Count nb of pieces setting in check */
     T_Position checking_piece_position;
     uint8_t nb_checking_pieces = 0;
-    for( T_Rank rank=RANK_1 ; rank<=RANK_8 ; rank++ )
+    for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
     {
-        for( T_File file=FILE_A ; file<=FILE_H ; file++ )
+        Piece* current_piece = list_of_pieces[p_idx];
+        if( true==Can_Capture_At_Position(
+            current_piece,
+            player_king_position) )
         {
-            Piece* current_piece = Get_Piece( rank, file );
-            if( current_piece!=NULL && Get_Color(current_piece)!=player_color )
-            {
-                if( true==Can_Capture_At_Position(
-                    current_piece,
-                    player_king_position) )
-                {
-                    nb_checking_pieces++;
-                    checking_piece_position = Get_Position(current_piece);
-                }
-            }
+            nb_checking_pieces++;
+            checking_piece_position = Get_Position(current_piece);
         }
     }
 
@@ -458,40 +453,38 @@ static bool Is_Checkmated( T_Color player_color )
 /*----------------------------------------------------------------------------*/
 static bool Is_Stalemated( T_Color next_player )
 {
-    /* Parse the whole chessboard. */
-    for( T_Rank start_rank=RANK_1 ; start_rank<=RANK_8 ; start_rank++ )
+    Piece** list_of_pieces = Chessboard.White_Pieces;
+    if(BLACK==next_player)
     {
-        for( T_File start_file=FILE_A ; start_file<=FILE_H ; start_file++ )
+        list_of_pieces = Chessboard.Black_Pieces;
+    }
+
+    for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
+    {
+        Piece* moving_piece = list_of_pieces[p_idx];
+        T_Position f_pos[27]; /* max is for Queen */
+        int8_t nb_pos;
+        Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+
+        for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
         {
-            /* Get pieces of player to move */
-            Piece* moving_piece = Get_Piece( start_rank, start_file );
-            if( moving_piece!=NULL && Get_Color(moving_piece)==next_player )
+            T_Movement_Data movement = Create_Movement_Data(
+                moving_piece,
+                Get_Position(moving_piece),
+                f_pos[pos_idx],
+                0 /* no matter, will not be stored */ );
+
+            if( true==Is_Movement_Valid( moving_piece, &movement ) )
             {
-                T_Position f_pos[27]; /* max is for Queen */
-                int8_t nb_pos;
-                Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+                Try_Move( &movement );
+                bool king_is_in_check;
+                king_is_in_check = Is_In_Check(next_player);
+                Cancel_Move( &movement );
 
-                for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+                /* Return false if player to move is not in check. */
+                if( false==king_is_in_check )
                 {
-                    T_Movement_Data movement = Create_Movement_Data(
-                        moving_piece,
-                        Get_Position(moving_piece),
-                        f_pos[pos_idx],
-                        0 /* no matter, will not be stored */ );
-
-                    if( true==Is_Movement_Valid( moving_piece, &movement ) )
-                    {
-                        Try_Move( &movement );
-                        bool king_is_in_check;
-                        king_is_in_check = Is_In_Check(next_player);
-                        Cancel_Move( &movement );
-
-                        /* Return false if player to move is not in check. */
-                        if( false==king_is_in_check )
-                        {
-                            return false;
-                        }
-                    }
+                    return false;
                 }
             }
         }
@@ -557,11 +550,16 @@ static void Try_Move( T_Movement_Data* movement )
             Get_File(movement->final_position) );
         movement->captured_piece = Get_Piece_By_Position( en_passant_pos );
         Set_Piece( NULL, en_passant_pos );
+
     }
     else
     {
         movement->captured_piece =
             Get_Piece_By_Position(movement->final_position);
+    }
+    if( NULL!=movement->captured_piece )
+    {
+        Set_Captured(movement->captured_piece);
     }
 
     /* Move piece */
@@ -600,6 +598,10 @@ static void Cancel_Move( T_Movement_Data* movement )
     else
     {
         Set_Piece( movement->captured_piece, movement->final_position );
+    }
+    if( NULL!=movement->captured_piece )
+    {
+        Reset_Captured(movement->captured_piece);
     }
 
     Undo_Piece_Move( movement->moved_piece, movement );
@@ -654,37 +656,37 @@ static bool Is_King_In_Check_After_Capture(
     T_Color player_color,
     T_Position checking_piece_position )
 {
-    for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
+    Piece** list_of_pieces = Chessboard.White_Pieces;
+    if(BLACK==player_color)
     {
-        for( T_File file = FILE_A ; file <= FILE_H ; file++ )
+        list_of_pieces = Chessboard.Black_Pieces;
+    }
+
+    for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
+    {
+        Piece* current_piece = list_of_pieces[p_idx];
+        if( true==Can_Capture_At_Position(
+                current_piece,
+                checking_piece_position) )
         {
-            Piece* current_piece = Get_Piece( rank, file );
-            if( current_piece!=NULL && Get_Color(current_piece)==player_color )
+            T_Movement_Data movement = Create_Movement_Data(
+                current_piece,
+                Get_Position(current_piece),
+                checking_piece_position,
+                0 /* no matter, will not be stored */ );
+
+            Try_Move( &movement );
+
+            /* Verify status */
+            bool king_is_check = Is_In_Check( player_color );
+
+            /* Cancel move */
+            Cancel_Move( &movement );
+
+            /* Return if player is not check */
+            if( false==king_is_check )
             {
-                if( true==Can_Capture_At_Position(
-                    current_piece,
-                    checking_piece_position) )
-                {
-                    T_Movement_Data movement = Create_Movement_Data(
-                        current_piece,
-                        Get_Position(current_piece),
-                        checking_piece_position,
-                        0 /* no matter, will not be stored */ );
-
-                    Try_Move( &movement );
-
-                    /* Verify status */
-                    bool king_is_check = Is_In_Check( player_color );
-
-                    /* Cancel move */
-                    Cancel_Move( &movement );
-
-                    /* Return if player is not check */
-                    if( false==king_is_check )
-                    {
-                        return false;
-                    }
-                }
+                return false;
             }
         }
     }
@@ -773,6 +775,12 @@ static bool Is_King_In_Check_After_Interception(
     T_Position king_position,
     T_Position checking_piece_position )
 {
+    Piece** list_of_pieces = Chessboard.White_Pieces;
+    if(BLACK==player_color)
+    {
+        list_of_pieces = Chessboard.Black_Pieces;
+    }
+
     T_Position interception_positions[6];
     int8_t nb_interception_pos = 0;
     Get_Interception_Positions(
@@ -783,40 +791,32 @@ static bool Is_King_In_Check_After_Interception(
 
     for( int8_t pos_idx = 0 ; pos_idx <nb_interception_pos ; pos_idx++ )
     {
-        Piece* interception_piece = NULL;
-
-        for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
+        for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
         {
-            for( T_File file = FILE_A ; file <= FILE_H ; file++ )
+            Piece* interception_piece = list_of_pieces[p_idx];
+
+            if( true==Can_Capture_At_Position(
+                interception_piece,
+                interception_positions[pos_idx]) )
             {
-                interception_piece = Get_Piece( rank, file );
-                if( interception_piece!=NULL
-                   && Get_Color(interception_piece)==player_color )
+                T_Movement_Data movement = Create_Movement_Data(
+                    interception_piece,
+                    Get_Position(interception_piece),
+                    interception_positions[pos_idx],
+                    0 /* no matter, will not be stored */ );
+
+                Try_Move( &movement );
+
+                /* Verify status */
+                bool king_is_check = Is_In_Check( player_color );
+
+                /* Cancel move */
+                Cancel_Move( &movement );
+
+                /* Return if player is not check */
+                if( false==king_is_check )
                 {
-                    if( true==Can_Capture_At_Position(
-                        interception_piece,
-                        interception_positions[pos_idx]) )
-                    {
-                        T_Movement_Data movement = Create_Movement_Data(
-                            interception_piece,
-                            Get_Position(interception_piece),
-                            interception_positions[pos_idx],
-                            0 /* no matter, will not be stored */ );
-
-                        Try_Move( &movement );
-
-                        /* Verify status */
-                        bool king_is_check = Is_In_Check( player_color );
-
-                        /* Cancel move */
-                        Cancel_Move( &movement );
-
-                        /* Return if player is not check */
-                        if( false==king_is_check )
-                        {
-                            return false;
-                        }
-                    }
+                    return false;
                 }
             }
         }
@@ -879,29 +879,19 @@ static int16_t Evaluate( void )
     /* Evaluate material & possible movement */
     int16_t pieces_score = 0;
     int16_t movement_score = 0;
-    for( T_Rank rank = RANK_1 ; rank<= RANK_8 ; rank++ )
+    T_Position pos[27]; /* max is for Queen */
+    int8_t nb_pos;
+    for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
     {
-        for( T_File file = FILE_A ; file <= FILE_H ; file++ )
-        {
-            Piece* piece = Get_Piece( rank, file );
-            if( NULL!=piece )
-            {
-                T_Position pos[27]; /* max is for Queen */
-                int8_t nb_pos = 0;
-                Get_Possible_Positions( piece, pos, &nb_pos );
-                if( WHITE==Get_Color(piece) )
-                {
-                    pieces_score += Get_Score( piece );
-                    movement_score += (nb_pos+1);
-                }
-                else
-                {
-                    pieces_score -= Get_Score( piece );
-                    movement_score -= (nb_pos+1);
-                }
-                nb_pos = 0;
-            }
-        }
+        Piece* piece = Chessboard.White_Pieces[p_idx];
+        Get_Possible_Positions( piece, pos, &nb_pos );
+        pieces_score += Get_Score( piece );
+        movement_score += (nb_pos+1);
+
+        piece = Chessboard.Black_Pieces[p_idx];
+        Get_Possible_Positions( piece, pos, &nb_pos );
+        pieces_score -= Get_Score( piece );
+        movement_score -= (nb_pos+1);
     }
 
     /* Evaluate center */
@@ -958,7 +948,6 @@ static int16_t Evaluate( void )
     /* Evaluate King security */
     int16_t security_score = 0;
     T_Position possible_king_pos[8];
-    int8_t nb_pos;
     const King* king = Get_King(WHITE);
     Get_Possible_King_Positions_In_Check( king, possible_king_pos, &nb_pos );
     for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
@@ -1008,39 +997,34 @@ static int16_t Evaluate_At_Depth(
     {
         evaluation = INT16_MIN;
 
-        for( T_Rank i_rank = RANK_1 ; i_rank<= RANK_8 ; i_rank++ )
+        for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
         {
-            for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
-            {
-                Piece* moving_piece = Get_Piece( i_rank, i_file );
-                if( NULL!=moving_piece && WHITE==Get_Color(moving_piece) )
-                {
-                    T_Position f_pos[27]; /* max is for Queen */
-                    int8_t nb_pos;
-                    Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+            Piece* moving_piece = Chessboard.White_Pieces[p_idx];
 
-                    for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+            T_Position f_pos[27]; /* max is for Queen */
+            int8_t nb_pos;
+            Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+
+            for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+            {
+                T_Board_State move_state;
+                move_state = Move_Piece_On_Board(
+                    Get_Position((Piece*)moving_piece),
+                    f_pos[pos_idx]);
+                if( INVALID!=move_state )
+                {
+                    move_val = Evaluate_At_Depth(
+                        current_depth + 1,
+                        evaluation_depth,
+                        alpha,
+                        beta);
+                    Undo_Last_Move();
+                    evaluation = MAX( evaluation, move_val );
+                    if( evaluation >= beta )
                     {
-                        T_Board_State move_state;
-                        move_state = Move_Piece_On_Board(
-                            Get_Position((Piece*)moving_piece),
-                            f_pos[pos_idx]);
-                        if( INVALID!=move_state )
-                        {
-                            move_val = Evaluate_At_Depth(
-                                current_depth + 1,
-                                evaluation_depth,
-                                alpha,
-                                beta);
-                            Undo_Last_Move();
-                            evaluation = MAX( evaluation, move_val );
-                            if( evaluation >= beta )
-                            {
-                                return evaluation;
-                            }
-                            alpha = MAX( alpha, evaluation );
-                        }
+                        return evaluation;
                     }
+                    alpha = MAX( alpha, evaluation );
                 }
             }
         }
@@ -1049,39 +1033,34 @@ static int16_t Evaluate_At_Depth(
     {
         evaluation = INT16_MAX;
 
-        for( T_Rank i_rank = RANK_1 ; i_rank<= RANK_8 ; i_rank++ )
+        for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
         {
-            for( T_File i_file = FILE_A ; i_file <= FILE_H ; i_file++ )
-            {
-                Piece* moving_piece = Get_Piece( i_rank, i_file );
-                if( NULL!=moving_piece && BLACK==Get_Color(moving_piece) )
-                {
-                    T_Position f_pos[27]; /* max is for Queen */
-                    int8_t nb_pos;
-                    Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+            Piece* moving_piece = Chessboard.Black_Pieces[p_idx];
 
-                    for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+            T_Position f_pos[27]; /* max is for Queen */
+            int8_t nb_pos;
+            Get_Possible_Positions( moving_piece, f_pos, &nb_pos );
+
+            for( int8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
+            {
+                T_Board_State move_state;
+                move_state = Move_Piece_On_Board(
+                    Get_Position((Piece*)moving_piece),
+                    f_pos[pos_idx]);
+                if( INVALID!=move_state )
+                {
+                    move_val = Evaluate_At_Depth(
+                        current_depth + 1,
+                        evaluation_depth,
+                        alpha,
+                        beta);
+                    Undo_Last_Move();
+                    evaluation = MIN( evaluation, move_val );
+                    if( alpha >= evaluation )
                     {
-                        T_Board_State move_state;
-                        move_state = Move_Piece_On_Board(
-                            Get_Position((Piece*)moving_piece),
-                            f_pos[pos_idx]);
-                        if( INVALID!=move_state )
-                        {
-                            move_val = Evaluate_At_Depth(
-                                current_depth + 1,
-                                evaluation_depth,
-                                alpha,
-                                beta);
-                            Undo_Last_Move();
-                            evaluation = MIN( evaluation, move_val );
-                            if( alpha >= evaluation )
-                            {
-                                return evaluation;
-                            }
-                            beta = MIN( beta, evaluation );
-                        }
+                        return evaluation;
                     }
+                    beta = MIN( beta, evaluation );
                 }
             }
         }

@@ -411,16 +411,20 @@ Board Chessboard = {
         (Piece*)&black_king, (Piece*)&f_black_bishop,
         (Piece*)&g_black_knight, (Piece*)&h_black_rook }
     },
-    /*.Pieces = {
-        {(Piece*)&a_white_rook, NULL, NULL, NULL, (Piece*)&white_king, NULL,NULL, NULL },
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        {NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
-        {NULL, NULL, NULL, NULL, (Piece*)&black_king, NULL, NULL, (Piece*)&h_black_rook }
-    },*/
+    .White_Pieces = {
+        (Piece*)&a_white_rook, (Piece*)&b_white_knight,
+        (Piece*)&c_white_bishop, (Piece*)&white_queen,
+        (Piece*)&white_king, (Piece*)&f_white_bishop,
+        (Piece*)&g_white_knight, (Piece*)&h_white_rook,
+        (Piece*)&pawn_a2,(Piece*)&pawn_b2,(Piece*)&pawn_c2,(Piece*)&pawn_d2,
+        (Piece*)&pawn_e2,(Piece*)&pawn_f2,(Piece*)&pawn_g2,(Piece*)&pawn_h2 },
+    .Black_Pieces = {
+        (Piece*)&pawn_a7,(Piece*)&pawn_b7,(Piece*)&pawn_c7,(Piece*)&pawn_d7,
+        (Piece*)&pawn_e7,(Piece*)&pawn_f7,(Piece*)&pawn_g7,(Piece*)&pawn_h7,
+        (Piece*)&a_black_rook, (Piece*)&b_black_knight,
+        (Piece*)&c_black_bishop, (Piece*)&black_queen,
+        (Piece*)&black_king, (Piece*)&f_black_bishop,
+        (Piece*)&g_black_knight, (Piece*)&h_black_rook },
     .White_King = &white_king,
     .Black_King = &black_king,
     .White_A_Rook = &a_white_rook,

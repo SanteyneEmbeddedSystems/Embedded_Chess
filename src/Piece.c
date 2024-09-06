@@ -19,6 +19,28 @@ T_Position Get_Position( const Piece* Me)
 {
     return Me->Position;
 }
+/*----------------------------------------------------------------------------*/
+bool Is_Captured( const Piece* Me )
+{
+    if( Me->Piece_Is_Captured==1 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+/*----------------------------------------------------------------------------*/
+void Set_Captured( Piece* Me )
+{
+    Me->Piece_Is_Captured = 1;
+}
+/*----------------------------------------------------------------------------*/
+void Reset_Captured( Piece* Me )
+{
+    Me->Piece_Is_Captured = 0;
+}
 
 
 /******************************************************************************/
@@ -244,12 +266,26 @@ bool Is_Movement_Valid(
     const Piece* Me,
     T_Movement_Data* movement )
 {
-    return Me->Virtual_Methods->is_move_valid( Me, movement );
+    if(Me->Piece_Is_Captured==0)
+    {
+        return Me->Virtual_Methods->is_move_valid( Me, movement );
+    }
+    else
+    {
+        return false;
+    }
 }
 /*----------------------------------------------------------------------------*/
 bool Can_Capture_At_Position( const Piece* Me, T_Position position)
 {
-    return Me->Virtual_Methods->can_capture_at_position(Me, position);
+    if(Me->Piece_Is_Captured==0)
+    {
+        return Me->Virtual_Methods->can_capture_at_position(Me, position);
+    }
+    else
+    {
+        return false;
+    }
 }/*----------------------------------------------------------------------------*/
 void Move_Piece( Piece* Me, T_Movement_Data* movement )
 {
@@ -271,10 +307,24 @@ void Get_Possible_Positions(
     T_Position* possible_pos,
     int8_t* nb_pos )
 {
-    Me->Virtual_Methods->get_possible_positions( Me, possible_pos, nb_pos );
+    if(Me->Piece_Is_Captured==0)
+    {
+        Me->Virtual_Methods->get_possible_positions( Me, possible_pos, nb_pos );
+    }
+    else
+    {
+        *nb_pos = -1;
+    }
 }
 /*----------------------------------------------------------------------------*/
 int8_t Get_Score( const Piece* Me )
 {
-    return Me->Virtual_Methods->get_score(Me);
+    if(Me->Piece_Is_Captured==0)
+    {
+        return Me->Virtual_Methods->get_score(Me);
+    }
+    else
+    {
+        return 0;
+    }
 }

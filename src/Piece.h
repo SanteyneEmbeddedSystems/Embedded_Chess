@@ -27,7 +27,8 @@ typedef struct {
 struct _Piece {
     const Piece_Meth* Virtual_Methods;
     T_Position Position;
-    const T_Color Color;
+    uint8_t Color:1;
+    uint8_t Piece_Is_Captured:1;
 };
 
 
@@ -36,6 +37,9 @@ struct _Piece {
 /******************************************************************************/
 T_Color Get_Color( const Piece* Me );
 T_Position Get_Position( const Piece* Me );
+bool Is_Captured( const Piece* Me );
+void Set_Captured( Piece* Me );
+void Reset_Captured( Piece* Me );
 
 
 /******************************************************************************/
