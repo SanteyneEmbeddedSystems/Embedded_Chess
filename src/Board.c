@@ -617,37 +617,25 @@ static bool Is_King_In_Check_After_Move(
     Get_Possible_King_Positions_In_Check( player_king, possible_pos, &nb_pos );
     for( uint8_t pos_idx = 0 ; pos_idx<=nb_pos ; pos_idx++ )
     {
-        T_Position captured_position = possible_pos[pos_idx];
-        bool is_square_capturable = true;
-        Piece* destination_piece;
-        destination_piece = Get_Piece_By_Position(captured_position);
-        if( NULL!=destination_piece && Get_Color(destination_piece)==player )
+        T_Movement_Data movement = Create_Movement_Data(
+            (Piece*)player_king,
+            Get_Position((Piece*)player_king),
+            possible_pos[pos_idx],
+            0 /* no matter, will not be stored */ );
+
+        /* Move King */
+        Try_Move( &movement );
+
+        /* Verify status */
+        bool king_is_check = Is_In_Check(player);
+
+        /* Cancel move */
+        Cancel_Move( &movement );
+
+        /* Return is player is not check */
+        if( false==king_is_check )
         {
-            is_square_capturable = false;
-        }
-
-        if(true==is_square_capturable)
-        {
-            T_Movement_Data movement = Create_Movement_Data(
-                (Piece*)player_king,
-                Get_Position((Piece*)player_king),
-                possible_pos[pos_idx],
-                0 /* no matter, will not be stored */ );
-
-            /* Move King */
-            Try_Move( &movement );
-
-            /* Verify status */
-            bool king_is_check = Is_In_Check(player);
-
-            /* Cancel move */
-            Cancel_Move( &movement );
-
-            /* Return is player is not check */
-            if( false==king_is_check )
-            {
-                return false;
-            }
+            return false;
         }
     }
     return true;
