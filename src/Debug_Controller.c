@@ -33,8 +33,7 @@ void Play( void )
     T_Position end_position;
 
     Display_Board();
-    T_Board_State state;
-    do
+    while(1)
     {
         while(is_command_valid==false)
         {
@@ -82,7 +81,7 @@ void Play( void )
             time_t begin = time( NULL );
             if( WHITE==Get_Current_Player() )
             {
-                eval = Find_Best_Move( 2, &start_position, &end_position );
+                eval = Find_Best_Move( 1, &start_position, &end_position );
             }
             else
             {
@@ -109,12 +108,7 @@ void Play( void )
         }
         is_command_valid = false;
         Display_Board();
-        state = Get_State();
-    } while( BLACK_CHECKMATE!=state
-            && WHITE_CHECKMATE!=state
-            && STALEMATE!=state );
-
-    getchar();
+    };
 }
 
 
@@ -163,8 +157,6 @@ static bool Treat_Command(
         is_valid = false;
     }
 
-
-
     return is_valid;
 }
 
@@ -172,66 +164,7 @@ static bool Treat_Command(
 static T_Position Create_Position_From_Chars( char file, char rank )
 {
     T_Position result;
-
-    switch( file )
-    {
-        case 'a' :
-            result.file = FILE_A;
-            break;
-        case 'b' :
-            result.file = FILE_B;
-            break;
-        case 'c' :
-            result.file = FILE_C;
-            break;
-        case 'd' :
-            result.file = FILE_D;
-            break;
-        case 'e' :
-            result.file = FILE_E;
-            break;
-        case 'f' :
-            result.file = FILE_F;
-            break;
-        case 'g' :
-            result.file = FILE_G;
-            break;
-        case 'h' :
-            result.file = FILE_H;
-            break;
-        default :
-
-            break;
-    }
-    switch( rank )
-    {
-        case '1' :
-            result.rank = RANK_1;
-            break;
-        case '2' :
-            result.rank = RANK_2;
-            break;
-        case '3' :
-            result.rank = RANK_3;
-            break;
-        case '4' :
-            result.rank = RANK_4;
-            break;
-        case '5' :
-            result.rank = RANK_5;
-            break;
-        case '6' :
-            result.rank = RANK_6;
-            break;
-        case '7' :
-            result.rank = RANK_7;
-            break;
-        case '8' :
-            result.rank = RANK_8;
-            break;
-        default :
-
-            break;
-    }
+    result.file = file-97;
+    result.rank = rank-1;
     return result;
 }
