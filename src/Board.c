@@ -790,7 +790,7 @@ static bool Is_King_In_Check_After_Interception(
         interception_positions,
         &nb_interception_pos );
 
-    for( int8_t pos_idx = 0 ; pos_idx <nb_interception_pos ; pos_idx++ )
+    for( int8_t pos_idx = 0 ; pos_idx <=nb_interception_pos ; pos_idx++ )
     {
         for( int8_t p_idx = 0; p_idx<=15 ; p_idx++ )
         {
