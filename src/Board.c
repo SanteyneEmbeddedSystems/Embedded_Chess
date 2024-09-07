@@ -292,7 +292,7 @@ T_Board_State Undo_Last_Move(void)
     return undo_status;
 }
 /*----------------------------------------------------------------------------*/
-void Find_Best_Move(
+int16_t Find_Best_Move(
     uint8_t evaluation_depth,
     T_Position* best_initial_position,
     T_Position* best_final_position )
@@ -341,6 +341,7 @@ void Find_Best_Move(
             }
         }
     }
+    return best_val;
 }
 
 

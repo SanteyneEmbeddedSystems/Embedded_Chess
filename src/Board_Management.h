@@ -12,7 +12,7 @@ T_Board_State Move_Piece_On_Board(
 
 T_Board_State Undo_Last_Move(void);
 
-void Find_Best_Move(
+int16_t Find_Best_Move(
     uint8_t evaluation_depth,
     T_Position* best_initial_position,
     T_Position* best_final_position );

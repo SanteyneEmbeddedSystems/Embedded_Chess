@@ -78,24 +78,26 @@ void Play( void )
         else if( command[0]=='p' && command[1]=='l'
                && command[2]=='a' && command[3]=='y' )
         {
+            int16_t eval;
             time_t begin = time( NULL );
             if( WHITE==Get_Current_Player() )
             {
-                Find_Best_Move( 2, &start_position, &end_position );
+                eval = Find_Best_Move( 2, &start_position, &end_position );
             }
             else
             {
-                Find_Best_Move( 5, &start_position, &end_position );
+                eval = Find_Best_Move( 4, &start_position, &end_position );
             }
             time_t end = time( NULL);
             unsigned long secondes = (unsigned long) difftime( end, begin );
             Move_Piece_On_Board( start_position, end_position );
-            printf("IA plays : %c%u-%c%u in %ld s\n",
+            printf("IA plays : %c%u-%c%u in %ld s for %i\n",
                    start_position.file+97,
                    start_position.rank+1,
                    end_position.file+97,
                    end_position.rank+1,
-                   secondes);
+                   secondes,
+                   eval);
         }
         else
         {
