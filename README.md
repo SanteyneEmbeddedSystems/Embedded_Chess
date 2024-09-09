@@ -1,5 +1,5 @@
 # Embedded_Chess
-Provides an implementation of the chess game suitable for embedded system (optimized for a 16 bits micrcontroller).
+Provides an implementation of the chess game suitable for embedded system (optimized for a 16 bits microcontroller).
 
 The characteristic of this implementation are :
 * efficient CPU usage
@@ -8,7 +8,7 @@ The characteristic of this implementation are :
   * 1611 bytes of RAM
 * no dynamic memory allocation
 
-This application implements an IA based on the Alpha–beta pruning algorithm.
+This application implements an AI based on the alpha–beta pruning algorithm.
 
 ## Rules
 
