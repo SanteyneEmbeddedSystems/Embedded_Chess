@@ -3,3 +3,4 @@
 *.layout
 obj
 bin
+debug/Debug_Embedded_Chess
