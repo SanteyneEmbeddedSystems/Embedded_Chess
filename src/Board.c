@@ -273,23 +273,15 @@ bool Is_Position_Capturable( T_Position position, T_Color player_color )
     return false;
 }
 /*----------------------------------------------------------------------------*/
-T_Board_State Undo_Last_Move(void)
+void Undo_Last_Move(void)
 {
-    T_Board_State undo_status;
     uint8_t idx = Chessboard.Nb_Movements;
-
     if( 0!=idx )
     {
         T_Movement_Data movement = Chessboard.Movements[idx-1];
         Cancel_Move( &movement );
         (Chessboard.Nb_Movements)--;
     }
-    else
-    {
-        undo_status = INVALID;
-    }
-
-    return undo_status;
 }
 /*----------------------------------------------------------------------------*/
 int16_t Find_Best_Move(
